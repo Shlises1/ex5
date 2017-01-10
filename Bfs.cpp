@@ -11,7 +11,7 @@ using namespace std;
  */
 Bfs::Bfs(Node* startP){
     currPoint = startP;
-    startMap = startP;
+    startMap = startP;////
 }
 /**
  * constractor
