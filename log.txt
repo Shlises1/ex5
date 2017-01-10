@@ -1,0 +1,47 @@
+* commit cb673d06b5876bbbe6709b06806359a16f54a138
+| Author: rane1700 <ranee1700@gmail.com>
+| Date:   Mon Jan 2 17:29:04 2017 +0200
+| 
+|     checking leaks
+|  
+* commit cd5d01977395a9bc7dcd034b01a862831d250831
+| Author: rane1700 <ranee1700@gmail.com>
+| Date:   Mon Jan 2 10:27:08 2017 +0200
+| 
+|     New class client ops
+|  
+* commit 07720ecb229e6044112a38e859c32c7487839c6d
+| Author: shlies1 <shani8165@gmail.com>
+| Date:   Sun Jan 1 23:11:03 2017 +0200
+| 
+|     New class - Server and client
+|  
+* commit e3b12c906c45c63ba8d06f300f5c92f61deca0cd
+| Author: rane1700 <ranee1700@gmail.com>
+| Date:   Sun Jan 1 17:48:37 2016 +0200
+| 
+|     minor changes in TaxiStation and BFS
+|  
+* commit fa40b57f9e52931c40ba6a61f91b7660aec9bb0d
+| Author: shlises1 <shani8165@gmail.com>
+| Date:   Fri Dec 30 13:21:32 2016 +0200
+| 
+|     moving by one step in grid each time
+|  
+* commit 4e7c31b344da5606aa9a13194de422e871265b5d
+| Author: rane1700 <ranee1700@gmail.com>
+| Date:   Fri Dec 30 10:53:57 2016 +0200
+| 
+|     testing serialization
+|  
+* commit f770503648a978dffbb8944bd9ad98be8bf18c1e
+| Author: shlises1 <shani8165@gmail.com>
+| Date:   Thu Dec 29 11:15:07 2016 +0200
+| 
+|     testing Environmenr
+|  
+* commit a17f68b5002c8e58bdc61f6bede5ddb9cceeb102
+  Author: shlises1 <shani8165@gmail.com>
+  Date:   Thu Dec 29 11:00:12 2016 +0200
+  
+      Initial commit
