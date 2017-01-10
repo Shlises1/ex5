@@ -9,7 +9,7 @@ using namespace std;
  * constractor
  * @param startP - start point
  */
-Bfs::Bfs(Node* startP){////////
+Bfs::Bfs(Node* startP){
     currPoint = startP;
     startMap = startP;
 }
