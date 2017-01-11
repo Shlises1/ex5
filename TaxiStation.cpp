@@ -32,13 +32,13 @@ TaxiStation::~TaxiStation() {
  * add driver to driver's vector
  * @param driver Driver object to be added
  */
-void TaxiStation::addDriver(){
-
-    drivers.push_back(server->setDriver());
-    drivers[0]->setCab(getCabByID(drivers[0]->getCabID()));
-    server->sendCab(cabs[0]);
-    server->sendTrip(trips[0]);
-
+void TaxiStation::addDrivers(int numOfDrivers){
+    for(int i =0; i < numOfDrivers; i++) {
+        drivers.push_back(server->setDriver());
+        drivers[0]->setCab(getCabByID(drivers[0]->getCabID()));
+        server->sendCab(cabs[0]);
+        server->sendTrip(trips[0]);
+    }
 }
 /**
  * Add Cab to the cab's vector

@@ -50,6 +50,7 @@ public:
 	* the data															   *
 	***********************************************************************/
 	int reciveData(char* buffer, int size);
+	void setIP(string ipInput);
 };
 
 #endif /* TCP_H_ */

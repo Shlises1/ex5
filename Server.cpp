@@ -10,8 +10,8 @@
  * @return
  */
 Server::Server(int port) {
-    soc = new Tcp(1,port);
-    soc->initialize();
+    soc = new Tcp(true,port);
+    soc->initialize(0);
     flag = false;
 
 }

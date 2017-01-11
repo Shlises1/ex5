@@ -71,7 +71,7 @@ int Tcp::initialize(int numOfClients) {
 			this->descriptorCommunicateClient = accept(this->socketDescriptor,
 													   (struct sockaddr *) &client_sin, &addr_len);
 			pthread_t t;
-			pthread_create(&t, NULL, TaxiStation::clientSwitch, )//
+			pthread_create(&t, NULL, TaxiStation::clientSwitch, (void*)this);
 		}
 		if (this->descriptorCommunicateClient < 0) {
 			//return an error represent error at this method
@@ -138,3 +138,4 @@ int Tcp::reciveData(char* buffer, int size) {
 	//return correct if there were no problem
 	return read_bytes;
 }
+void Tcp::setIP(string ipInput) { ip_address = ipInput;}

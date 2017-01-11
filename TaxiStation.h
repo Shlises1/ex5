@@ -42,7 +42,7 @@ public:
      * add driver to driver's vector
      * @param driver Driver object to be added
      */
-    void addDriver();
+    void addDrivers(int numOfDrivers);
     /**
      * Add Cab to the cab's vector
      * @param cab Cab object to be added
