@@ -9,9 +9,9 @@
 ClientOps::ClientOps(char* ipInput, int portInput) {
     sInfo = StationInfo();
     string ip = ipInput;
-    con = new Udp(0, portInput);
+    con = new Tcp(false, portInput);
         con->setIP(ipInput);
-    con->initialize();
+    con->initialize(0);
 }
 /**
  * destructor for class
