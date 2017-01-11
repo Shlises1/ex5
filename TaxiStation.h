@@ -111,6 +111,7 @@ public:
      */
     Cab* getCabByID(int id);
     static void* calculatePass(void* trip);
+    static void* clientSwitch(void* tx);
 };
 
 

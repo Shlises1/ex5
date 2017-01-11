@@ -4,7 +4,8 @@
 
 #include "TaxiStation.h"
 #include "MapCreator.h"
-
+#define DRIVER_LOCATION 4
+int globalSwitch;
 /**
  * Empty constructor
  */
@@ -282,4 +283,24 @@ Trip* TaxiStation:: matchTrip(){
  */
 Server* TaxiStation::getConn() {
     return server;
+}
+
+void* TaxiStation::clientSwitch(void* tx1) {
+    TaxiStation* tx = (TaxiStation*)tx1;
+    bool isBeen = false;
+    int id;
+    if(isBeen == false) {
+        switch (globalSwitch){
+            case DRIVER_LOCATION: {
+                cin >> id;
+                tx->getDriverLocation(id);
+                isBeen = true;
+            }
+            case 9: {
+                tx->start();
+                isBeen = true;
+                break;
+            }
+        }
+    }
 }
