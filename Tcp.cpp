@@ -71,7 +71,7 @@ int Tcp::initialize(int numOfClients) {
 			this->descriptorCommunicateClient = accept(this->socketDescriptor,
 													   (struct sockaddr *) &client_sin, &addr_len);
 			pthread_t t;
-			pthread_create(&t, NULL, TaxiStation::clientSwitch, )//
+			pthread_create(&t, NULL, TaxiStation::clientSwitch , (void*)this);
 		}
 		if (this->descriptorCommunicateClient < 0) {
 			//return an error represent error at this method
@@ -105,7 +105,7 @@ int Tcp::sendData(string data) {
 	int data_len = data.length();
 	const char * datas = data.c_str();
 	int sent_bytes = send(this->isServer ? this->descriptorCommunicateClient
-			: this->socketDescriptor, datas, data_len, 0);
+			: this->socketDescriptor, datas, data_len+1, 0);
 	if (sent_bytes < 0) {
 		//return an error represent error at this method
 		return ERROR_SEND;

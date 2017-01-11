@@ -8,6 +8,7 @@
 #include "Udp.h"
 #include "Server.h"
 #include "LuxuryCab.h"
+#include "Switch.h"
 #include <unistd.h>
 
 
@@ -20,7 +21,7 @@
 using namespace std;
 int main(int argc, char **argv) {
 
-  string gridSize, obs, obsChain = "";
+    string gridSize, obs, obsChain = "";
     string input;
     int numObs, mission;
     int startX, startY;
@@ -39,14 +40,17 @@ int main(int argc, char **argv) {
     StationInfo info = StationInfo();
     TaxiStation *tx;
     tx = new TaxiStation(atoi(argv[1]));
+    Switch sw = Switch(obsChain);
+    sw.doSwitch(tx);
     Trip *t;
-    Cab* cab;
     cin >> mission;
     while (1) {
         switch (mission) {
             case RECIEVE_DRIVER: {
                 cin >> numDrivers;
-                tx->addDriver();
+                for (int i=0;i<numDrivers;i++) {
+                    tx->addDriver(numDrivers);
+                }
                 break;
             }
             case RIDE: {
