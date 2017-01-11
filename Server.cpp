@@ -2,6 +2,7 @@
 // Created by ran on 27/12/16.
 //
 #include "Server.h"
+#include "Tcp.h"
 
 /**
  * Constructor
@@ -9,7 +10,7 @@
  * @return
  */
 Server::Server(int port) {
-    soc = new Udp(1,port);
+    soc = new Tcp(1,port);
     soc->initialize();
     flag = false;
 

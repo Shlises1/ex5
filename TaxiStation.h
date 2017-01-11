@@ -6,7 +6,7 @@
 #define EX2_STATIONSTATION_H
 
 #include <array>
-
+#include <pthread.h>
 using namespace std;
 
 #include <vector>
@@ -110,6 +110,7 @@ public:
      * @return the cab with the given id
      */
     Cab* getCabByID(int id);
+    static void* calculatePass(void* trip);
 };
 
 

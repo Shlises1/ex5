@@ -10,9 +10,7 @@ ClientOps::ClientOps(char* ipInput, int portInput) {
     sInfo = StationInfo();
     string ip = ipInput;
     con = new Udp(0, portInput);
-   // if(std::strcmp(ipInput.c_str(), "localhost")){
         con->setIP(ipInput);
-  //  }
     con->initialize();
 }
 /**

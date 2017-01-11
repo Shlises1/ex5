@@ -35,6 +35,6 @@ Socket::Socket() {
 Socket::~Socket() {
 	close(this->socketDescriptor);
 }
-//void Socket::setIP(string ipInput) { ip_address = ipInput;}
+
 
 

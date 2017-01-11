@@ -9,10 +9,11 @@
 #include "TaxiStation.h"
 #include "StationInfo.h"
 #include "Socket.h"
+#include "Tcp.h"
 
 class ClientOps {
 private:
-    Udp* con;
+    Tcp* con;
     vector<Driver*>driverVec;
     vector<Trip*>tripVec;
     vector<Cab*>cabVec;

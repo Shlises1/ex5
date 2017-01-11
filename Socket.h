@@ -80,7 +80,7 @@ public:
 	* the data															   *
 	***********************************************************************/
 	virtual int reciveData(char* buffer, int size) = 0;
-	virtual void setIP(string ipInput)=0;
+
 
 
 

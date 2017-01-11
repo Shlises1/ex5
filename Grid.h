@@ -1,7 +1,7 @@
 
 #ifndef EX1_GRID_H
 #define EX1_GRID_H
-#define MAX_SIZE 10
+#define MAX_SIZE 2000
 #include "Bfs.h"
 #include "PointBase.h"
 #include "Map.h"
