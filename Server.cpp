@@ -27,7 +27,7 @@ Server::~Server(){
  */
 Driver* Server::setDriver(int socComu) {
     char buffer[1024];
-    soc->reciveData(buffer,sizeof(buffer),descriptorCom);
+    soc->reciveData(buffer,sizeof(buffer),socComu);
     string serial_str (buffer,sizeof(buffer));
     Driver* driver;
     boost::iostreams::basic_array_source<char> device(serial_str.c_str(), serial_str.size());
@@ -68,7 +68,7 @@ void Server::sendCab(Cab* cab, int socComunication) {
     boost::archive::binary_oarchive oa(s);
     oa << cab;
     s.flush();
-    soc->sendData(serial_str,descriptorCom);
+    soc->sendData(serial_str,socComunication);
 }
 /**
  * send client current driver location

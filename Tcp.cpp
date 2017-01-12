@@ -134,7 +134,7 @@ int Tcp::reciveData(char* buffer, int size,int descriptorCom) {
 	//return correct if there were no problem
 	return read_bytes;
 }
-int Tcp::accept_(){
+int Tcp::accept_() {
 	//accept
 	struct sockaddr_in client_sin;
 	unsigned int addr_len = sizeof(client_sin);
