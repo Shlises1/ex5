@@ -33,7 +33,7 @@ public:
 	* The Function operation: initialize the Socket object and getting a   *
 	* socket descriptor.												   *
 	***********************************************************************/
-	int initialize(int numOfClients);
+	int initialize();
 	/***********************************************************************
 	* function name: sendData											   *
 	* The Input: string representing the data to send		               *
@@ -41,7 +41,7 @@ public:
 	* The Function operation: sending the input data to the socket         *
 	* who connect to this socket. 										   *
 	***********************************************************************/
-	int sendData(string data);
+	int sendData(string data,int descriptorCom);
 	/***********************************************************************
 	* function name: recive	`											   *
 	* The Input: none										               *
@@ -49,7 +49,8 @@ public:
 	* The Function operation: getting data from the other socket and print *
 	* the data															   *
 	***********************************************************************/
-	int reciveData(char* buffer, int size);
+	int reciveData(char* buffer, int size,int descriptorCom);
+	int accept_();
 	void setIP(string ipInput);
 };
 

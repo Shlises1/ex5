@@ -34,10 +34,12 @@ TaxiStation::~TaxiStation() {
  */
 void TaxiStation::addDrivers(int numOfDrivers){
     for(int i =0; i < numOfDrivers; i++) {
-        drivers.push_back(server->setDriver());
-        drivers[0]->setCab(getCabByID(drivers[0]->getCabID()));
-        server->sendCab(cabs[0]);
-        server->sendTrip(trips[0]);
+        Driver* d = new Driver(0, 30, 'm', 10, 1);
+       int x = server->getConnection()->accept_();
+        drivers.push_back(server->setDriver(x));
+        drivers[i]->setCab(getCabByID(drivers[0]->getCabID()));
+        server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
+        //server->sendTrip(trips[0]);
     }
 }
 /**
@@ -45,9 +47,10 @@ void TaxiStation::addDrivers(int numOfDrivers){
  * @param cab Cab object to be added
  */
 void TaxiStation::addCab(Cab* cab) {
+    /*
     if (drivers.size() > 0) {
         server->sendCab(cab);
-    }
+    }*/
     cabs.push_back(cab);
 
 }
@@ -74,8 +77,8 @@ void TaxiStation::addTrip(Trip* trip) {
         server->sendTrip(trip);
     }
     trips.push_back(trip);
-    pthread_t p1;
-    int status = pthread_create(&p1, NULL, this->calculatePass, (void*)trip);
+    //pthread_t p1;
+    //int status = pthread_create(&p1, NULL, this->calculatePass, (void*)trip);
 }
 
 void* TaxiStation:: calculatePass(void* trip){

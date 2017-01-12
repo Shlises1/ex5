@@ -19,7 +19,7 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
 #add_executable(server server.cpp)
 add_executable(client client.cpp ${SOURCE_FILES} ClientOps.cpp ClientOps.h)
-add_executable(server server.cpp ${SOURCE_FILES})
+add_executable(server ServerFlow.cpp ${SOURCE_FILES})
 target_link_libraries(server ${Boost_LIBRARIES})
 target_link_libraries(client ${Boost_LIBRARIES})
 target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT})

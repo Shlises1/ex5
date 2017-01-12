@@ -10,8 +10,8 @@ ClientOps::ClientOps(char* ipInput, int portInput) {
     sInfo = StationInfo();
     string ip = ipInput;
     con = new Tcp(false, portInput);
-        con->setIP(ipInput);
-    con->initialize(0);
+    con->setIP(ipInput);
+    con->initialize();
 }
 /**
  * destructor for class
@@ -104,5 +104,5 @@ void ClientOps::sendDriver() {
     boost::archive::binary_oarchive oa(s);
     oa << driverVec[0];
     s.flush();
-    con->sendData(serial_str);
+    con->sendData(serial_str,1);
 }

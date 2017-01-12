@@ -41,6 +41,7 @@ private:
     Cab* cab;
     enum material {S,M,D,W};
     bool firstStep;
+    int socketCom;
     //serialize
     friend class boost::serialization::access;
 
@@ -55,6 +56,7 @@ private:
         ar & isTripDone;
         ar & location;
         ar & firstStep;
+        ar & socketCom;
     }
 public:
     /**
@@ -146,6 +148,9 @@ public:
      * @return true if the trip the driver is doing is done, else return false
      */
     bool getIsDone();
+    int getSocketCom();
+    void setSocketCom(int socketC);
+    Cab* getCab();
 };
 
 

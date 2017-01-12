@@ -32,19 +32,17 @@
 class Server {
 private:
     int driverId;
-    Socket* soc;
+    Tcp* soc;
     Node* location;
     bool flag;
-    vector<Trip*>serverTrips;
-    vector<Cab*>serverCabs;
-    Node* goalPoint;
+    int descriptorCom;
 public:
     Server(int port);
     ~Server();
     Socket* getConnection();
-    Driver* setDriver();
+    Driver* setDriver(int socComu);
     void sendTrip(Trip* trip);
-    void sendCab(Cab* cab);
+    void sendCab(Cab* cab, int socComunication);
     void moveOn(Node* loc);
     void endConn();
     void getDriver();

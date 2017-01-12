@@ -8,7 +8,6 @@
 #include "Udp.h"
 #include "Server.h"
 #include "LuxuryCab.h"
-#include "Switch.h"
 #include <unistd.h>
 
 
@@ -40,17 +39,15 @@ int main(int argc, char **argv) {
     StationInfo info = StationInfo();
     TaxiStation *tx;
     tx = new TaxiStation(atoi(argv[1]));
-    Switch sw = Switch(obsChain);
-    sw.doSwitch(tx);
     Trip *t;
     cin >> mission;
     while (1) {
         switch (mission) {
             case RECIEVE_DRIVER: {
                 cin >> numDrivers;
-                for (int i=0;i<numDrivers;i++) {
-                    tx->addDriver(numDrivers);
-                }
+                //for (int i=0;i<numDrivers;i++) {
+                    tx->addDrivers(numDrivers);
+               // }
                 break;
             }
             case RIDE: {

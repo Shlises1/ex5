@@ -144,3 +144,6 @@ int Driver:: getCabID(){ return cabID; }
  * @return true if the trip the driver is doing is done, else return false
  */
 bool Driver::getIsDone() { return isTripDone;}
+int Driver::getSocketCom() { return socketCom;}
+void Driver::setSocketCom(int socketC) {socketCom = socketC;}
+Cab* Driver::getCab() { return cab;}
