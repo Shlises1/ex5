@@ -34,7 +34,6 @@ TaxiStation::~TaxiStation() {
  */
 void TaxiStation::addDrivers(int numOfDrivers){
     for(int i =0; i < numOfDrivers; i++) {
-        Driver* d = new Driver(0, 30, 'm', 10, 1);
        int x = server->getConnection()->accept_();
         drivers.push_back(server->setDriver(x));
         drivers[i]->setSocketCom(x);
