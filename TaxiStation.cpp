@@ -56,7 +56,7 @@ void TaxiStation::addDrivers(int numOfDrivers) {
             cout<<"error opening thread"<<endl;
             return;
         }
-        drivers[i]->setCab(getCabByID(drivers[0]->getCabID()));
+        drivers[i]->setCab(getCabByID(drivers[i]->getCabID()));
         //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
     }
