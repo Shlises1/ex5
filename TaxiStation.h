@@ -20,15 +20,20 @@ using namespace std;
 
 class TaxiStation {
 private:
+    vector<Trip*> trips;
     vector<Driver*> drivers;
     vector<Node*> Location;
     vector<Cab*> cabs;
-    vector<Trip*> trips;
     Node *p;
     int findTripNumInVector(int tripId);
     Driver* findDriverAlreadyArrived(int startX,int startY,int id);
     Clock clock;
     Server* server;
+    struct dataThread{
+        TaxiStation *tx;
+        int cDescriptor;
+        int driverId;
+    };
 public:
     /**
      * constructor
@@ -110,6 +115,7 @@ public:
      * @return the cab with the given id
      */
     Cab* getCabByID(int id);
+    static void* flow(void* driverId);
     static void* calculatePass(void* trip);
     static void* clientSwitch(void* tx);
 };

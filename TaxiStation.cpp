@@ -4,8 +4,10 @@
 
 #include "TaxiStation.h"
 #include "MapCreator.h"
+#include "ThreadOps.h"
+
 #define DRIVER_LOCATION 4
-int globalSwitch;
+
 /**
  * Empty constructor
  */
@@ -32,13 +34,19 @@ TaxiStation::~TaxiStation() {
  * add driver to driver's vector
  * @param driver Driver object to be added
  */
-void TaxiStation::addDrivers(int numOfDrivers){
+void TaxiStation::addDrivers(int numOfDrivers) {
+    dataThread* dThread = new dataThread;
     for(int i =0; i < numOfDrivers; i++) {
        int x = server->getConnection()->accept_();
         drivers.push_back(server->setDriver(x));
         drivers[i]->setSocketCom(x);
-        drivers[i]->setCab(getCabByID(drivers[0]->getCabID()));
-        server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
+        dThread->tx = this;
+        dThread->cDescriptor = x;
+        dThread->driverId = drivers[i]->getDriverID();
+        pthread_t rThr;
+        pthread_create(&rThr,NULL,flow,dThread);
+        //drivers[i]->setCab(getCabByID(drivers[0]->getCabID()));
+        //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
     }
 }
@@ -287,23 +295,8 @@ Trip* TaxiStation:: matchTrip(){
 Server* TaxiStation::getConn() {
     return server;
 }
+void* TaxiStation::flow(void *threadData){
+    cout<<"From thread"<<endl;
+    int mission;
 
-void* TaxiStation::clientSwitch(void* tx1) {
-    TaxiStation* tx = (TaxiStation*)tx1;
-    bool isBeen = false;
-    int id;
-    if(isBeen == false) {
-        switch (globalSwitch){
-            case DRIVER_LOCATION: {
-                cin >> id;
-                tx->getDriverLocation(id);
-                isBeen = true;
-            }
-            case 9: {
-                tx->start();
-                isBeen = true;
-                break;
-            }
-        }
-    }
 }

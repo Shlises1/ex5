@@ -9,24 +9,30 @@
 #include "Server.h"
 #include "LuxuryCab.h"
 #include <unistd.h>
+#include <mutex>
 
+extern int mission;
 
+std::mutex mu;
 #define RECIEVE_DRIVER 1
 #define RIDE 2
 #define VEHICLE 3
 #define DRIVER_LOCATION 4
 #define STRART_DRIVING 6
 #define EXIT 7
+#define MOVE_ON 9
+
 using namespace std;
 int main(int argc, char **argv) {
 
     string gridSize, obs, obsChain = "";
     string input;
-    int numObs, mission;
+    int numObs;
     int startX, startY;
     int endX, endY;
     int id;
     int numDrivers;
+    int mission;
     std::getline(cin, gridSize);
     cin >> numObs;
     if (numObs > 0) {
@@ -73,7 +79,7 @@ int main(int argc, char **argv) {
                 tx->startAll();
                 break;
             }
-            case 9: {
+            case MOVE_ON: {
                 tx->start();
                 break;
             }
@@ -86,4 +92,5 @@ int main(int argc, char **argv) {
         cin >> mission;
     }
 }
+
 
