@@ -10,6 +10,7 @@
 #include "StationInfo.h"
 #include "Socket.h"
 #include "Tcp.h"
+#include "Udp.h"
 
 class ClientOps {
 private:

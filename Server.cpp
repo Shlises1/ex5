@@ -74,16 +74,16 @@ void Server::sendCab(Cab* cab, int socComunication) {
  * send client current driver location
  * @param loc current location of driver
  */
-void Server::moveOn(Node* loc) {
+void Server::moveOn(Node* loc, int soketComu) {
     //tell client that his driver location needs to be updated
-    soc->sendData("9",descriptorCom);
+    soc->sendData("9",soketComu);
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
     oa << loc;
     s.flush();
-    soc->sendData(serial_str,descriptorCom);
+    soc->sendData(serial_str,soketComu);
 }
 /**
  * Client needs to close connection

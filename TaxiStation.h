@@ -29,11 +29,7 @@ private:
     Driver* findDriverAlreadyArrived(int startX,int startY,int id);
     Clock clock;
     Server* server;
-    struct dataThread{
-        TaxiStation *tx;
-        int cDescriptor;
-        int driverId;
-    };
+
 public:
     /**
      * constructor
@@ -93,7 +89,7 @@ public:
      * if the driver isn't in a middle of a trip - it assigning him a trip.
      * else - move him to the next point in the trip's pass.
      */
-    void start();
+    void start(int driverID);
     /**
      *
      * @return the first driver in the driver's vector

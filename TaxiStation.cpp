@@ -4,10 +4,16 @@
 
 #include "TaxiStation.h"
 #include "MapCreator.h"
-#include "ThreadOps.h"
-
+int mission;
+bool isMissionDone;
 #define DRIVER_LOCATION 4
-
+#define EXIT 7
+struct dataThread{
+    TaxiStation *tx;
+    int cDescriptor;
+    int driverId;
+};
+pthread_mutex_t mutexLock;
 /**
  * Empty constructor
  */
@@ -45,7 +51,7 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         dThread->driverId = drivers[i]->getDriverID();
         pthread_t rThr;
         pthread_create(&rThr,NULL,flow,dThread);
-        //drivers[i]->setCab(getCabByID(drivers[0]->getCabID()));
+        drivers[i]->setCab(getCabByID(drivers[0]->getCabID()));
         //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
     }
@@ -248,25 +254,27 @@ int TaxiStation::findTripNumInVector(int tripId) {
  * if the driver isn't in a middle of a trip - it assigning him a trip.
  * else - move him to the next point in the trip's pass.
  */
-void TaxiStation::start() {
+void TaxiStation::start(int driverID) {
     clock.incTime();
+    Driver* driver = getDriverByID(driverID);
+    pthread_mutex_lock(&mutexLock);
     //assign
-    if (drivers[0]->getIsDone() == true) {
+    if (driver->getIsDone() == true) {
         Trip* trip = matchTrip();
         if(trip == NULL){
             return;
         }
-        drivers[0]->addTrip(trip);
-
-        server->moveOn(drivers[0]->getLocation());
+        driver->addTrip(trip);
+        server->moveOn(driver->getLocation(), driver->getSocketCom());
+        pthread_mutex_unlock(&mutexLock);
         return;
     }
-        drivers[0]->doOneStep();
-        server->moveOn(drivers[0]->getLocation());
-        if(drivers[0]->getTrip()->isDone() == true) {
-            int x = findTripNumInVector(drivers[0]->getTrip()->getRideID());
+        driver->doOneStep();
+        server->moveOn(driver->getLocation(), driver->getSocketCom());
+        if(driver->getTrip()->isDone() == true) {
+            int x = findTripNumInVector(driver->getTrip()->getRideID());
             trips.erase(trips.begin() + x);
-            drivers[0]->deletetrip();
+            driver->deletetrip();
     }
 }
 /**
@@ -296,7 +304,32 @@ Server* TaxiStation::getConn() {
     return server;
 }
 void* TaxiStation::flow(void *threadData){
-    cout<<"From thread"<<endl;
-    int mission;
+    dataThread* td  =(dataThread*)threadData;
+    TaxiStation* tx = td->tx;
+    int id = td->driverId;
+    while (1) {
+        if(isMissionDone == false) {
+            switch (mission) {
+                /*
+                case DRIVER_LOCATION: {
+                    tx->getDriverLocation(id);
+                    isMissionDone = true;
+                    break;
+                }*/
+                case 9: {
+                    tx->start(id);
+                    isMissionDone = true;
+                    break;
+                }
+                case EXIT: {
+                    delete (tx);
+                    isMissionDone = true;
+                    return 0;
+                }
+            }
+        }
+        //?
+       // cin >> mission;
+    }
 
 }

@@ -12,7 +12,7 @@
 #include <mutex>
 
 extern int mission;
-
+extern bool isMissionDone;
 std::mutex mu;
 #define RECIEVE_DRIVER 1
 #define RIDE 2
@@ -21,6 +21,7 @@ std::mutex mu;
 #define STRART_DRIVING 6
 #define EXIT 7
 #define MOVE_ON 9
+//extern int mission;
 
 using namespace std;
 int main(int argc, char **argv) {
@@ -32,7 +33,7 @@ int main(int argc, char **argv) {
     int endX, endY;
     int id;
     int numDrivers;
-    int mission;
+   // int mission;
     std::getline(cin, gridSize);
     cin >> numObs;
     if (numObs > 0) {
@@ -74,7 +75,7 @@ int main(int argc, char **argv) {
                 cin >> id;
                 tx->getDriverLocation(id);
                 break;
-            }
+            }/*
             case STRART_DRIVING: {
                 tx->startAll();
                 break;
@@ -82,7 +83,7 @@ int main(int argc, char **argv) {
             case MOVE_ON: {
                 tx->start();
                 break;
-            }
+            }*/
             case EXIT: {
                 delete (tx);
                 return 0;
@@ -90,6 +91,7 @@ int main(int argc, char **argv) {
         }
 
         cin >> mission;
+        isMissionDone = false;
     }
 }
 

@@ -43,7 +43,7 @@ public:
     Driver* setDriver(int socComu);
     void sendTrip(Trip* trip);
     void sendCab(Cab* cab, int socComunication);
-    void moveOn(Node* loc);
+    void moveOn(Node* loc, int soketComu);
     void endConn();
     void getDriver();
     void printLocation();
