@@ -50,7 +50,12 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         dThread->cDescriptor = x;
         dThread->driverId = drivers[i]->getDriverID();
         pthread_t rThr;
-        pthread_create(&rThr,NULL,flow,dThread);
+        int status = pthread_create(&rThr,NULL,flow,dThread);
+        if (status)
+        {
+            cout<<"error opening thread"<<endl;
+            return;
+        }
         drivers[i]->setCab(getCabByID(drivers[0]->getCabID()));
         //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
@@ -322,8 +327,8 @@ void* TaxiStation::flow(void *threadData){
                     break;
                 }
                 case EXIT: {
-                    delete (tx);
-                    isMissionDone = true;
+                    //delete (tx);
+                    pthread_exit(NULL);
                     return 0;
                 }
             }
