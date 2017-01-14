@@ -2,20 +2,22 @@
 // Created by shani on 11/28/16.
 //
 
+#include <mutex>
 #include "TaxiStation.h"
 #include "MapCreator.h"
 int mission;
 bool isMissionDone;
-#define DRIVER_LOCATION 4
+Clock globalClock;
+pthread_mutex_t mutexLock;
 #define EXIT 7
 struct dataThread{
     TaxiStation *tx;
     int cDescriptor;
     int driverId;
 };
-pthread_mutex_t mutexLock;
+
 /**
- * Empty constructor
+ * constructor
  */
 TaxiStation::TaxiStation(int x){
     server = new Server(x);
@@ -41,9 +43,10 @@ TaxiStation::~TaxiStation() {
  * @param driver Driver object to be added
  */
 void TaxiStation::addDrivers(int numOfDrivers) {
-    dataThread* dThread = new dataThread;
+    pthread_mutex_init(&mutexLock,0);
     for(int i =0; i < numOfDrivers; i++) {
-       int x = server->getConnection()->accept_();
+        dataThread* dThread = new dataThread;
+        int x = server->getConnection()->accept_();
         drivers.push_back(server->setDriver(x));
         drivers[i]->setSocketCom(x);
         dThread->tx = this;
@@ -260,25 +263,31 @@ int TaxiStation::findTripNumInVector(int tripId) {
  * else - move him to the next point in the trip's pass.
  */
 void TaxiStation::start(int driverID) {
-    clock.incTime();
+    cout<<driverID<<"got to start"<<endl;
     Driver* driver = getDriverByID(driverID);
-    pthread_mutex_lock(&mutexLock);
+
+  //  clock.incTime();
     //assign
     if (driver->getIsDone() == true) {
+        pthread_mutex_lock(&mutexLock);
         Trip* trip = matchTrip();
         if(trip == NULL){
+            pthread_mutex_unlock(&mutexLock);
             return;
         }
+        pthread_mutex_unlock(&mutexLock);
         driver->addTrip(trip);
         server->moveOn(driver->getLocation(), driver->getSocketCom());
-        pthread_mutex_unlock(&mutexLock);
+
+        cout<<driverID<<"assigned"<<endl;
         return;
     }
         driver->doOneStep();
         server->moveOn(driver->getLocation(), driver->getSocketCom());
+    cout<<driverID<<"moved one step"<<endl;
         if(driver->getTrip()->isDone() == true) {
-            int x = findTripNumInVector(driver->getTrip()->getRideID());
-            trips.erase(trips.begin() + x);
+         //   int x = findTripNumInVector(driver->getTrip()->getRideID());
+         //   trips.erase(trips.begin() + x);
             driver->deletetrip();
     }
 }
@@ -294,10 +303,12 @@ Driver* TaxiStation::getDriver() { return drivers[0];}
 Trip* TaxiStation:: matchTrip(){
    // Trip* maxTrip = trips[0];
     for(int i = 0; i < trips.size(); i++){
-        if(clock.getTime() == trips.at(i)->getTimeOfStart()){
-            return trips.at(i);
+        if(globalClock.getTime() == trips.at(i)->getTimeOfStart()){
+            Trip* t = trips.at(i);
+            int x = findTripNumInVector(t->getRideID());
+            trips.erase(trips.begin() + x);
+            return t;
         }
-
     }
     return NULL;
 }
@@ -322,6 +333,7 @@ void* TaxiStation::flow(void *threadData){
                     break;
                 }*/
                 case 9: {
+                    cout<<id<<"got to static flow"<<endl;
                     tx->start(id);
                     isMissionDone = true;
                     break;

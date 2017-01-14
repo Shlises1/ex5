@@ -27,7 +27,7 @@ private:
     Node *p;
     int findTripNumInVector(int tripId);
     Driver* findDriverAlreadyArrived(int startX,int startY,int id);
-    Clock clock;
+  //  Clock clock;
     Server* server;
 
 public:

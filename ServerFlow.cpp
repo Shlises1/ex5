@@ -9,11 +9,11 @@
 #include "Server.h"
 #include "LuxuryCab.h"
 #include <unistd.h>
-#include <mutex>
-
+//#include <mutex>
+extern Clock globalClock;
 extern int mission;
 extern bool isMissionDone;
-std::mutex mu;
+//std::mutex mu;
 #define RECIEVE_DRIVER 1
 #define RIDE 2
 #define VEHICLE 3
@@ -25,7 +25,7 @@ std::mutex mu;
 
 using namespace std;
 int main(int argc, char **argv) {
-
+    globalClock = Clock();
     string gridSize, obs, obsChain = "";
     string input;
     int numObs;
@@ -79,11 +79,11 @@ int main(int argc, char **argv) {
             case STRART_DRIVING: {
                 tx->startAll();
                 break;
-            }
-            case MOVE_ON: {
-                tx->start();
-                break;
             }*/
+            case MOVE_ON: {
+                globalClock.incTime();
+                break;
+            }
             case EXIT: {
                 delete (tx);
                 return 0;
