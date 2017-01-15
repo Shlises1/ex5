@@ -98,7 +98,6 @@ void Driver::addTrip(Trip* newTrip){
     trip = newTrip;
     isTripDone = false;
     trip->setSpeed(cab->getSpeed());
-    trip->createPass();
 }
 /**
  *

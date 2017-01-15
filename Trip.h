@@ -17,7 +17,6 @@ using namespace std;
 class Trip {
 private:
     int RideID;
-    double totalMeterPassed;
     Node* startP;
     Node* destP;
     int numPassengers;
@@ -31,6 +30,7 @@ private:
     Node* currentP;
     vector<Node*> pass;
     int speed;
+    pthread_t tripThread;
     //serialize
     friend class boost::serialization::access;
     template <class Archive>
@@ -44,6 +44,11 @@ private:
         ar & numObs;
         ar & obsChain;
     }
+    static void* claculatePassWithThread(void*);
+    /**
+     * creates the pass of the trip from the start point to the dest point
+     */
+    void createPass();
 public:
     /**
      * constructor
@@ -162,10 +167,7 @@ public:
      * return a vector that contains the pass of the trip
      */
     vector<Node*> getpass();
-    /**
-     * creates the pass of the trip from the start point to the dest point
-     */
-    void createPass();
+
     /**
      * sets the done param to be true if the trip has ended, else sets it to false
      * @param b - true\false
@@ -181,6 +183,7 @@ public:
      * @return the speed
      */
     int getSpeed();
+    void threadCalcPass();
 };
 
 #endif //EX2_TRIP_H

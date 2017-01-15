@@ -94,22 +94,10 @@ void TaxiStation::addTrip(Trip* trip) {
     Map* m = creator.getMap();
     //Set map in Trip class
     trip->setMap(m);
-    //drivers[0]->addTrip(trip);
-    if (drivers.size() > 0) {
-        server->sendTrip(trip);
-    }
+    server->sendTrip(trip);
     trips.push_back(trip);
-    //pthread_t p1;
-    //int status = pthread_create(&p1, NULL, this->calculatePass, (void*)trip);
+    trip->threadCalcPass();
 }
-
-void* TaxiStation:: calculatePass(void* trip){
-    Trip* t = (Trip*)trip;
-    t->createPass();
-    cout<<"shani is the best!!"<<endl;
-    return NULL;
-}
-
 /**
  *
  * @param id - the id of the cab we want to find

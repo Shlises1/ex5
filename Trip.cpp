@@ -34,7 +34,8 @@ Trip::Trip(int idPar,int startXP,int startYP,int endXP,int endYP,int numPass,int
 /**
  * destructor
  */
-Trip::~Trip(){
+Trip::~Trip()   {
+    pthread_exit(&tripThread);
     delete(layout);
     delete startP;
     delete destP;
@@ -112,6 +113,7 @@ Node* Trip:: getMapCurrent(){
  * return the next point in the trip pass, according to he speed of the cab.
  */
 Node* Trip::getNext(){
+    pthread_join(tripThread,NULL);
     if(speed == 1){
         currentP = pass.front();
     }else if (speed == 2){
@@ -169,13 +171,18 @@ void Trip:: setObsChain(string obsChainInput){ obsChain = obsChainInput;}
 /*
  * return a vector that contains the pass of the trip
  */
-vector<Node*> Trip:: getpass(){
+vector<Node*> Trip:: getpass() {
+    pthread_join(tripThread,NULL);
     return pass;
+}
+void Trip::threadCalcPass() {
+    Trip* t = this;
+    pthread_create(&tripThread,NULL,claculatePassWithThread,t);
 }
 /**
  * creates the pass of the trip from the start point to the dest point
  */
-void Trip:: createPass(){
+void Trip:: createPass() {
     layout->run();
     pass = layout->getPass();
 }
@@ -196,3 +203,8 @@ void Trip::setSpeed(int newSpeed) {speed = newSpeed;}
  * @return the speed
  */
 int Trip::getSpeed() { return speed;}
+void* Trip::claculatePassWithThread(void* data){
+    Trip* trip = (Trip*)data;
+    trip->createPass();
+    return NULL;
+}
