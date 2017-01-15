@@ -29,7 +29,11 @@ private:
     Driver* findDriverAlreadyArrived(int startX,int startY,int id);
   //  Clock clock;
     Server* server;
-
+    struct dataThread{
+        TaxiStation *tx;
+        int cDescriptor;
+        int driverId;
+    };
 public:
     /**
      * constructor

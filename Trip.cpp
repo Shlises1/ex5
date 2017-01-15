@@ -35,7 +35,6 @@ Trip::Trip(int idPar,int startXP,int startYP,int endXP,int endYP,int numPass,int
  * destructor
  */
 Trip::~Trip()   {
-    pthread_exit(&tripThread);
     delete(layout);
     delete startP;
     delete destP;

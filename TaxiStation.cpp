@@ -10,11 +10,7 @@ bool isMissionDone;
 Clock globalClock;
 pthread_mutex_t mutexLock;
 #define EXIT 7
-struct dataThread{
-    TaxiStation *tx;
-    int cDescriptor;
-    int driverId;
-};
+
 
 /**
  * constructor
@@ -327,9 +323,8 @@ void* TaxiStation::flow(void *threadData){
                     break;
                 }
                 case EXIT: {
-                    //delete (tx);
+                    delete td;
                     pthread_exit(NULL);
-                    return 0;
                 }
             }
         }
