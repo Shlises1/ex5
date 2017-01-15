@@ -41,9 +41,9 @@ public:
     ~Server();
     Socket* getConnection();
     Driver* setDriver(int socComu);
-    void sendTrip(Trip* trip);
-    void sendCab(Cab* cab);
-    void moveOn(Node* loc, int soketComu);
+    void sendTrip(Trip* trip,int socketComu);
+    void sendCab(Cab* cab,int socketComu);
+    void moveOn(Node* loc, int socketComu);
     void endConn(int descriptor);
     void getDriver();
     void printLocation();

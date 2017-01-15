@@ -42,16 +42,16 @@ Driver* Server::setDriver(int socComu) {
  * Send trip object to client
  * @param trip
  */
-void Server::sendTrip(Trip* trip) {
+void Server::sendTrip(Trip* trip,int socketComu) {
     //tell client that a trip is about to be sent
-    soc->sendData("2",descriptorCom);
+    soc->sendData("2",socketComu);
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
     oa << trip;
     s.flush();
-    soc->sendData(serial_str,descriptorCom);
+    soc->sendData(serial_str,socketComu);
 
 
 }
@@ -59,31 +59,31 @@ void Server::sendTrip(Trip* trip) {
  * Send cab object to client
  * @param cab
  */
-void Server::sendCab(Cab* cab) {
+void Server::sendCab(Cab* cab,int socketComu) {
     //tell client that a cab is about to be sent
-    soc->sendData("3",descriptorCom);
+    soc->sendData("3",socketComu);
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
     oa << cab;
     s.flush();
-    soc->sendData(serial_str,descriptorCom);
+    soc->sendData(serial_str,socketComu);
 }
 /**
  * send client current driver location
  * @param loc current location of driver
  */
-void Server::moveOn(Node* loc, int soketComu) {
+void Server::moveOn(Node* loc, int socketComu) {
     //tell client that his driver location needs to be updated
-    soc->sendData("9",soketComu);
+    soc->sendData("9",socketComu);
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
     oa << loc;
     s.flush();
-    soc->sendData(serial_str,soketComu);
+    soc->sendData(serial_str,socketComu);
 }
 /**
  * Client needs to close connection

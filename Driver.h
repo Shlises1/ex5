@@ -56,7 +56,6 @@ private:
         ar & isTripDone;
         ar & location;
         ar & firstStep;
-        ar & socketCom;
     }
 public:
     /**

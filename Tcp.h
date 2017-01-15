@@ -52,6 +52,7 @@ public:
 	int reciveData(char* buffer, int size,int descriptorCom);
 	int accept_();
 	void setIP(string ipInput);
+    int getSocketDescriptor(){ return  this->socketDescriptor;}
 };
 
 #endif /* TCP_H_ */

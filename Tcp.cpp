@@ -15,9 +15,9 @@
 * port_num by the input												   *
 ***********************************************************************/
 Tcp::Tcp(bool isServers, int port_num) {
-	//this->descriptorCommunicateClient = 0;
-	this->port_number = port_num;
-	this->isServer = isServers;
+    //this->descriptorCommunicateClient = 0;
+    this->port_number = port_num;
+    this->isServer = isServers;
 
 }
 
@@ -28,7 +28,7 @@ Tcp::Tcp(bool isServers, int port_num) {
 * The Function operation: default destructor					       *
 ***********************************************************************/
 Tcp::~Tcp() {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 /***********************************************************************
@@ -39,32 +39,32 @@ Tcp::~Tcp() {
 * socket descriptor. bind and accept for servers or connect for clients*
 ***********************************************************************/
 int Tcp::initialize() {
-	//getting a socket descriptor and check if legal
-	this->socketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
-	if (this->socketDescriptor < 0) {
-		//return an error represent error at this method
-		return ERROR_SOCKET;
-	}
-	//if server
-	if (this->isServer) {
-		//initialize the struct
-		struct sockaddr_in sin;
-		memset(&sin, 0, sizeof(sin));
-		sin.sin_family = AF_INET;
-		sin.sin_addr.s_addr = INADDR_ANY;
-		sin.sin_port = htons(this->port_number);
-		//bind
-		if (::bind(this->socketDescriptor,
-				(struct sockaddr *) &sin, sizeof(sin)) < 0) {
-			//return an error represent error at this method
-			return ERROR_BIND;
-		}
-		//listen
-		if (listen(this->socketDescriptor, this->backLog) < 0) {
-			//return an error represent error at this method
-			return ERROR_LISTEN;
-		}
-		//accept
+    //getting a socket descriptor and check if legal
+    this->socketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
+    if (this->socketDescriptor < 0) {
+        //return an error represent error at this method
+        return ERROR_SOCKET;
+    }
+    //if server
+    if (this->isServer) {
+        //initialize the struct
+        struct sockaddr_in sin;
+        memset(&sin, 0, sizeof(sin));
+        sin.sin_family = AF_INET;
+        sin.sin_addr.s_addr = INADDR_ANY;
+        sin.sin_port = htons(this->port_number);
+        //bind
+        if (::bind(this->socketDescriptor,
+                   (struct sockaddr *) &sin, sizeof(sin)) < 0) {
+            //return an error represent error at this method
+            return ERROR_BIND;
+        }
+        //listen
+        if (listen(this->socketDescriptor, this->backLog) < 0) {
+            //return an error represent error at this method
+            return ERROR_LISTEN;
+        }
+        //accept
 /*		struct sockaddr_in client_sin;
 		unsigned int addr_len = sizeof(client_sin);
 			this->descriptorCommunicateClient = accept(this->socketDescriptor,
@@ -73,21 +73,21 @@ int Tcp::initialize() {
 			//return an error represent error at this method
 			return ERROR_ACCEPT;
 		}*/
-	//if client
-	} else {
-		struct sockaddr_in sin;
-		memset(&sin, 0, sizeof(sin));
-		sin.sin_family = AF_INET;
-		sin.sin_addr.s_addr = inet_addr((this->ip_address).c_str());
-		sin.sin_port = htons(this->port_number);
-		if (connect(this->socketDescriptor,
-				(struct sockaddr *) &sin, sizeof(sin)) < 0) {
-			//return an error represent error at this method
-			return ERROR_CONNECT;
-		}
-	}
-	//return correct if there were no problem
-	return CORRECT;
+        //if client
+    } else {
+        struct sockaddr_in sin;
+        memset(&sin, 0, sizeof(sin));
+        sin.sin_family = AF_INET;
+        sin.sin_addr.s_addr = inet_addr((this->ip_address).c_str());
+        sin.sin_port = htons(this->port_number);
+        if (connect(this->socketDescriptor,
+                    (struct sockaddr *) &sin, sizeof(sin)) < 0) {
+            //return an error represent error at this method
+            return ERROR_CONNECT;
+        }
+    }
+    //return correct if there were no problem
+    return CORRECT;
 }
 
 /***********************************************************************
@@ -98,16 +98,16 @@ int Tcp::initialize() {
 * and the socket descroptor											   *
 ***********************************************************************/
 int Tcp::sendData(string data,int descriptorCom) {
-	int data_len = data.length();
-	const char * datas = data.c_str();
-	int sent_bytes = send(this->isServer ? descriptorCom
-			: this->socketDescriptor, datas, data_len, 0);//
-	if (sent_bytes < 0) {
-		//return an error represent error at this method
-		return ERROR_SEND;
-	}
-	//return correct if there were no problem
-	return CORRECT;
+    int data_len = data.length();
+    const char * datas = data.c_str();
+    int sent_bytes = send(this->isServer ? descriptorCom
+                                         : this->socketDescriptor, datas, data_len, 0);//
+    if (sent_bytes < 0) {
+        //return an error represent error at this method
+        return ERROR_SEND;
+    }
+    //return correct if there were no problem
+    return CORRECT;
 }
 
 /***********************************************************************
@@ -118,32 +118,32 @@ int Tcp::sendData(string data,int descriptorCom) {
 * enter it to the buffer and print the data							   *
 ***********************************************************************/
 int Tcp::reciveData(char* buffer, int size,int descriptorCom) {
-	int read_bytes = recv(this->isServer ? descriptorCom
-			: this->socketDescriptor, buffer, size, 0);
-	//checking the errors
-	if (read_bytes == 0) {
-		return CONNECTION_CLOSED;
-	}
-	else if (read_bytes < 0) {
-		//return an error represent error at this method
-		return ERROR_RECIVE;
-	} else {
-		//prinrting the massege
+    int read_bytes = recv(this->isServer ? descriptorCom
+                                         : this->socketDescriptor, buffer, size, 0);
+    //checking the errors
+    if (read_bytes == 0) {
+        return CONNECTION_CLOSED;
+    }
+    else if (read_bytes < 0) {
+        //return an error represent error at this method
+        return ERROR_RECIVE;
+    } else {
+        //prinrting the massege
 //		cout<<buffer<<endl;
-	}
-	//return correct if there were no problem
-	return read_bytes;
+    }
+    //return correct if there were no problem
+    return read_bytes;
 }
 int Tcp::accept_() {
-	//accept
-	struct sockaddr_in client_sin;
-	unsigned int addr_len = sizeof(client_sin);
-	descriptorCommunicateClient = accept(this->socketDescriptor,
-											   (struct sockaddr *) &client_sin, &addr_len);
-	if (this->descriptorCommunicateClient < 0) {
-		//return an error represent error at this method
-		return ERROR_ACCEPT;
-	}
-	return descriptorCommunicateClient;
+    //accept
+    struct sockaddr_in client_sin;
+    unsigned int addr_len = sizeof(client_sin);
+    descriptorCommunicateClient = accept(this->socketDescriptor,
+                                         (struct sockaddr *) &client_sin, &addr_len);
+    if (this->descriptorCommunicateClient < 0) {
+        //return an error represent error at this method
+        return ERROR_ACCEPT;
+    }
+    return descriptorCommunicateClient;
 }
 void Tcp::setIP(string ipInput) { ip_address = ipInput;}
