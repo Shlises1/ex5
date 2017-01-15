@@ -59,16 +59,16 @@ void Server::sendTrip(Trip* trip) {
  * Send cab object to client
  * @param cab
  */
-void Server::sendCab(Cab* cab, int socComunication) {
+void Server::sendCab(Cab* cab) {
     //tell client that a cab is about to be sent
-    soc->sendData("3",socComunication);
+    soc->sendData("3",descriptorCom);
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
     oa << cab;
     s.flush();
-    soc->sendData(serial_str,socComunication);
+    soc->sendData(serial_str,descriptorCom);
 }
 /**
  * send client current driver location

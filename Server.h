@@ -42,7 +42,7 @@ public:
     Socket* getConnection();
     Driver* setDriver(int socComu);
     void sendTrip(Trip* trip);
-    void sendCab(Cab* cab, int socComunication);
+    void sendCab(Cab* cab);
     void moveOn(Node* loc, int soketComu);
     void endConn(int descriptor);
     void getDriver();

@@ -59,6 +59,12 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
     }
+    for (int i=0;i<cabs.size();i++) {
+        server->sendCab(cabs[i]);
+    }
+    for (int i=0;i<trips.size();i++) {
+        server->sendTrip(trips[i]);
+    }
 }
 /**
  * Add Cab to the cab's vector
@@ -90,7 +96,9 @@ void TaxiStation::addTrip(Trip* trip) {
     Map* m = creator.getMap();
     //Set map in Trip class
     trip->setMap(m);
-    server->sendTrip(trip);
+    if (drivers.size() > 0) {
+        server->sendTrip(trip);
+    }
     trips.push_back(trip);
     trip->threadCalcPass();
 }
@@ -268,7 +276,7 @@ void TaxiStation::start(int driverID) {
     }
         driver->doOneStep();
         server->moveOn(driver->getLocation(), driver->getSocketCom());
-    cout<<driverID<<"moved one step"<<endl;
+        cout<<driverID<<"moved one step"<<endl;
         if(driver->getTrip()->isDone() == true) {
          //   int x = findTripNumInVector(driver->getTrip()->getRideID());
          //   trips.erase(trips.begin() + x);
