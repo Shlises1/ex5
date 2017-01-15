@@ -44,7 +44,7 @@ public:
     void sendTrip(Trip* trip);
     void sendCab(Cab* cab, int socComunication);
     void moveOn(Node* loc, int soketComu);
-    void endConn();
+    void endConn(int descriptor);
     void getDriver();
     void printLocation();
 };

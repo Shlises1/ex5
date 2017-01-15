@@ -22,7 +22,7 @@ TaxiStation::TaxiStation(int x){
  * Destructor to delete all the vectors
  */
 TaxiStation::~TaxiStation() {
-    server->endConn();
+  //  server->endConn();
     for (int i=0;i<drivers.size();i++) {
         delete(drivers[i]);
     }
@@ -323,6 +323,7 @@ void* TaxiStation::flow(void *threadData){
                     break;
                 }
                 case EXIT: {
+                    tx->getConn()->endConn(td->cDescriptor);
                     delete td;
                     pthread_exit(NULL);
                 }

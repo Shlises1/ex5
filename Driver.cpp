@@ -38,7 +38,7 @@ Driver::~Driver() {
         delete (trip);
     }
     if(location != NULL) {
-        delete (location);
+       // delete (location);
     }
     return;
 }

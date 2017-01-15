@@ -88,9 +88,9 @@ void Server::moveOn(Node* loc, int soketComu) {
 /**
  * Client needs to close connection
  */
-void Server::endConn() {
+void Server::endConn(int descriptor) {
     //tell client that connection needs to be closed
-    soc->sendData("7",descriptorCom);
+    soc->sendData("7",descriptor);
 }
 void Server::getDriver() {
     char buffer[1024];
