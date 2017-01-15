@@ -15,7 +15,7 @@
 * port_num by the input												   *
 ***********************************************************************/
 Tcp::Tcp(bool isServers, int port_num) {
-	this->descriptorCommunicateClient = 0;
+	//this->descriptorCommunicateClient = 0;
 	this->port_number = port_num;
 	this->isServer = isServers;
 
@@ -101,7 +101,7 @@ int Tcp::sendData(string data,int descriptorCom) {
 	int data_len = data.length();
 	const char * datas = data.c_str();
 	int sent_bytes = send(this->isServer ? descriptorCom
-			: this->socketDescriptor, datas, data_len +1, 0);//
+			: this->socketDescriptor, datas, data_len, 0);//
 	if (sent_bytes < 0) {
 		//return an error represent error at this method
 		return ERROR_SEND;
