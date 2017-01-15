@@ -172,7 +172,6 @@ void Trip:: setObsChain(string obsChainInput){ obsChain = obsChainInput;}
  * return a vector that contains the pass of the trip
  */
 vector<Node*> Trip:: getpass() {
-    pthread_join(tripThread,NULL);
     return pass;
 }
 void Trip::threadCalcPass() {
@@ -183,6 +182,7 @@ void Trip::threadCalcPass() {
  * creates the pass of the trip from the start point to the dest point
  */
 void Trip:: createPass() {
+    pthread_join(tripThread,NULL);
     layout->run();
     pass = layout->getPass();
 }
@@ -204,6 +204,8 @@ void Trip::setSpeed(int newSpeed) {speed = newSpeed;}
  */
 int Trip::getSpeed() { return speed;}
 void* Trip::claculatePassWithThread(void* data){
+    cout <<"starting to calc trip"<<endl;
+
     Trip* trip = (Trip*)data;
     trip->createPass();
     return NULL;
