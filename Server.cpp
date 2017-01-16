@@ -46,7 +46,7 @@ void Server::sendTrip(Trip* trip,int socketComu) {
     char buffer[1024];
     //tell client that a trip is about to be sent
     soc->sendData("2",socketComu);
-    std::string serial_str (buffer, sizeof(buffer));
+    std::string serial_str ;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
@@ -64,7 +64,7 @@ void Server::sendCab(Cab* cab,int socketComu) {
     char buffer[1024];
     //tell client that a cab is about to be sent
     soc->sendData("3",socketComu);
-    std::string serial_str (buffer, sizeof(buffer));
+    std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
@@ -77,10 +77,10 @@ void Server::sendCab(Cab* cab,int socketComu) {
  * @param loc current location of driver
  */
 void Server::moveOn(Node* loc, int socketComu) {
-    char buffer[1024];
+   // char buffer[2048];
     //tell client that his driver location needs to be updated
     soc->sendData("9",socketComu);
-    std::string serial_str (buffer, sizeof(buffer));
+    std::string serial_str ;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
     boost::archive::binary_oarchive oa(s);
