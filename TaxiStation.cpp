@@ -312,13 +312,13 @@ Trip* TaxiStation:: matchTrip(){
 Server* TaxiStation::getConn() {
     return server;
 }
-void* TaxiStation::flow(void *threadData){
+void* TaxiStation::flow(void *threadData){//
     dataThread* td  =(dataThread*)threadData;
     TaxiStation* tx = td->tx;
     int id = td->driverId;
     int threadCounter=0;
     while (1) {
-        if(isMissionDone == false) {
+        if(isMissionDone == false) {//
             switch (mission) {
                 /*
                 case DRIVER_LOCATION: {
