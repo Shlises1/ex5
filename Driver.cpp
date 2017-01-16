@@ -29,7 +29,7 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
     isTripDone = true;
     trip = NULL;
     firstStep = true;
-    socketCom = -1;
+   // socketCom = -1;
 }
 /**
  * Destructor

@@ -34,6 +34,7 @@ private:
         TaxiStation *tx;
         int cDescriptor;
         int driverId;
+        int i;
     };
 public:
     int numberOfDrivers;

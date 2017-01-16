@@ -104,5 +104,6 @@ void ClientOps::sendDriver() {
     boost::archive::binary_oarchive oa(s);
     oa << driverVec[0];
     s.flush();
+    //std::string serial_str = "hello";
     con->sendData(serial_str,-1);
 }

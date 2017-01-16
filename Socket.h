@@ -35,7 +35,7 @@ protected:
 	//true is the socket is for a server, false if for a client
 	bool isServer;
 	//the socket descriptor return from sock()
-	int socketDescriptor;
+	int socketDescriptor = -1;
 	//ip adress
 	string ip_address;
 	int backLog;

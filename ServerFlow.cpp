@@ -12,7 +12,8 @@
 //#include <mutex>
 extern Clock globalClock;
 extern int mission;
-extern bool isMissionDone;
+//extern bool isMissionDone;
+extern vector<bool> isMissionDone;
 //std::mutex mu;
 #define RECIEVE_DRIVER 1
 #define RIDE 2
@@ -82,6 +83,7 @@ int main(int argc, char **argv) {
             }*/
             case MOVE_ON: {
                 globalClock.incTime();
+                tx->matchTrip();
                 break;
             }
             case EXIT: {
@@ -91,7 +93,9 @@ int main(int argc, char **argv) {
         }
 
         cin >> mission;
-        isMissionDone = false;
+        for(int i = 0; i < isMissionDone.size(); i++) {
+            isMissionDone.at(i) = false;
+        }
     }
 }
 
