@@ -74,7 +74,7 @@ int main(int argc, char **argv) {
             }
             case DRIVER_LOCATION: {
                 cin >> id;
-                tx->getDriverLocation(id);//
+                tx->getDriverLocation(id);
                 break;
             }/*
             case STRART_DRIVING: {
