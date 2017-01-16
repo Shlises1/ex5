@@ -29,7 +29,7 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
     isTripDone = true;
     trip = NULL;
     firstStep = true;
-   // socketCom = -1;
+    socketCom = -1;
 }
 /**
  * Destructor
@@ -147,3 +147,5 @@ bool Driver::getIsDone() { return isTripDone;}
 int Driver::getSocketCom() { return socketCom;}
 void Driver::setSocketCom(int socketC) {socketCom = socketC;}
 Cab* Driver::getCab() { return cab;}
+int Driver::getCounter() { return counter;}
+void Driver::setCounter(int newCounter) {counter = newCounter;}

@@ -86,15 +86,16 @@ int main(int argc, char **argv) {
             case MOVE_ON: {
                 cout<<"9 on main thread"<<endl;
                 globalClock.incTime();
+                tx->matchTrip();
                 for(int i = 0; i < isMissionDone.size(); i++) {//
                     isMissionDone.at(i) = false;
                 }
                 //sleep(5);
+                /*
                 int j = 0;
                 while( j<1000000){
                     j++;
-                }
-                tx->matchTrip();
+                } */
                     /*
                     Driver* d = tx->getDriver(i);
                     if(d->getTrip()!=NULL) {

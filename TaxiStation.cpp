@@ -46,6 +46,7 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         int x = server->getConnection()->accept_();
         drivers.push_back(server->setDriver(x));
         drivers[i]->setSocketCom(x);
+        drivers[i]->setCounter(0);
         dThread->tx = this;
         dThread->cDescriptor = x;
         dThread->driverId = drivers[i]->getDriverID();
@@ -273,6 +274,11 @@ void TaxiStation::start(int driverID) {
     }*/
 
         if(driver->getTrip()!= NULL) {
+            //means that it has just assigned to a trip and doedn't need to move one step
+            if(driver->getCounter() == 1){
+                driver->setCounter(2);
+                return;
+            }
             driver->doOneStep();
             server->moveOn(driver->getLocation(), driver->getSocketCom());
             cout << driverID << "moved one step" << endl;
@@ -301,6 +307,7 @@ void TaxiStation:: matchTrip(){
                 if(drivers.at(j)->getIsDone() == true) {
                     drivers.at(j)->addTrip(trips.at(i));
                     isMissionDone[j] = true;
+                    drivers.at(j)->setCounter(1);
                     cout<<drivers[j]->getDriverID()<<"assigned"<<endl;
                     //int x = findTripNumInVector(trips[i]->getRideID());
                    // trips.erase(trips.begin() + x);

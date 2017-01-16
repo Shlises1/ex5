@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     //mission num will hold the expected  object type from server
     char missionNum[1024];
     //mission num will hold the expected  object from server
-    char buffer[1024];
+    char buffer[2048];
     co.getConnection()->reciveData(missionNum, sizeof(missionNum), -1);
     while (1) {
         switch(missionNum[0]) {

@@ -42,6 +42,7 @@ private:
     enum material {S,M,D,W};
     bool firstStep;
     int socketCom;
+    int counter;
     //serialize
     friend class boost::serialization::access;
 
@@ -150,6 +151,8 @@ public:
     int getSocketCom();
     void setSocketCom(int socketC);
     Cab* getCab();
+    int getCounter();
+    void setCounter(int newCounter);
 };
 
 
