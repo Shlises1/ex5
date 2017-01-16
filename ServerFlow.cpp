@@ -84,18 +84,21 @@ int main(int argc, char **argv) {
             case MOVE_ON: {
                 globalClock.incTime();
                 tx->matchTrip();
+                for(int i = 0; i < isMissionDone.size(); i++) {
+                    isMissionDone.at(i) = false;
+                }
                 break;
             }
             case EXIT: {
+                for(int i = 0; i < isMissionDone.size(); i++) {
+                    isMissionDone.at(i) = false;
+                }
                 delete (tx);
                 return 0;
             }
         }
 
         cin >> mission;
-        for(int i = 0; i < isMissionDone.size(); i++) {
-            isMissionDone.at(i) = false;
-        }
     }
 }
 

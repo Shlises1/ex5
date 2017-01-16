@@ -40,7 +40,7 @@ TaxiStation::~TaxiStation() {
  * @param driver Driver object to be added
  */
 void TaxiStation::addDrivers(int numOfDrivers) {
-    pthread_mutex_init(&mutexLock,0);
+  //  pthread_mutex_init(&mutexLock,0);
     for(int i =0; i < numOfDrivers; i++) {
         dataThread* dThread = new dataThread;
         int x = server->getConnection()->accept_();
@@ -50,7 +50,7 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         dThread->cDescriptor = x;
         dThread->driverId = drivers[i]->getDriverID();
         dThread->i = i;
-        isMissionDone.push_back(false);
+        isMissionDone.push_back(true);
         pthread_t rThr;
         int status = pthread_create(&rThr,NULL,flow,dThread);
         if (status)
@@ -59,7 +59,7 @@ void TaxiStation::addDrivers(int numOfDrivers) {
             return;
         }
         drivers[i]->setCab(getCabByID(drivers[i]->getCabID()));
-        //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
+        server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
     }
 
@@ -275,8 +275,8 @@ void TaxiStation::start(int driverID) {
         server->moveOn(driver->getLocation(), driver->getSocketCom());
         cout << driverID << "moved one step" << endl;
         if (driver->getTrip()->isDone() == true) {
-            //   int x = findTripNumInVector(driver->getTrip()->getRideID());
-            //   trips.erase(trips.begin() + x);
+               int x = findTripNumInVector(driver->getTrip()->getRideID());
+               trips.erase(trips.begin() + x);
             driver->deletetrip();
         }
     }
@@ -290,15 +290,17 @@ Driver* TaxiStation::getDriver() { return drivers[0];}
  *
  * @return the trip that strats now. if there is not such one - return null.
  */
-Trip* TaxiStation:: matchTrip(){
+void TaxiStation:: matchTrip(){
    // Trip* maxTrip = trips[0];
     for(int i = 0; i < trips.size(); i++){
         if(globalClock.getTime() == trips.at(i)->getTimeOfStart()){
             for(int j = 0; j < drivers.size();j++) {
                 if(drivers.at(j)->getIsDone() == true) {
                     drivers.at(j)->addTrip(trips.at(i));
+                    //int x = findTripNumInVector(trips[i]->getRideID());
+                   // trips.erase(trips.begin() + x);
+                    break;
                   //  server->sendTrip(trips[i],drivers[j]->getSocketCom());
-                  //  server->sendCab(drivers[j]->getCab(),drivers[j]->getSocketCom());
                     /*
                     Trip *t = trips.at(i);
                     int x = findTripNumInVector(t->getRideID());
@@ -309,7 +311,7 @@ Trip* TaxiStation:: matchTrip(){
             }
         }
     }
-    return NULL;
+  //  return NULL;
 }
 /**
  *
