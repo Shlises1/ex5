@@ -39,6 +39,7 @@ TaxiStation::~TaxiStation() {
  * @param driver Driver object to be added
  */
 void TaxiStation::addDrivers(int numOfDrivers) {
+    numberOfDrivers = numOfDrivers;
     pthread_mutex_init(&mutexLock,0);
     for(int i =0; i < numOfDrivers; i++) {
         dataThread* dThread = new dataThread;
@@ -48,13 +49,19 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         dThread->tx = this;
         dThread->cDescriptor = x;
         dThread->driverId = drivers[i]->getDriverID();
+        //dThread->finishedOp =false;
+        //structVec.push_back(dThread);
+       // pthread_t thread[numOfDrivers];
         pthread_t rThr;
-        int status = pthread_create(&rThr,NULL,flow,dThread);
-        if (status)
-        {
-            cout<<"error opening thread"<<endl;
-            return;
+        for (int i=0;i<numOfDrivers;i++) {
+            int status = pthread_create(&rThr,NULL,flow,dThread);
+            if (status)
+            {
+                cout<<"error opening thread"<<endl;
+                return;
+            }
         }
+
         drivers[i]->setCab(getCabByID(drivers[i]->getCabID()));
         //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
@@ -263,7 +270,7 @@ void TaxiStation::start(int driverID) {
         server->sendCab(driver->getCab(),driver->getSocketCom());
         pthread_mutex_unlock(&mutexLock);
         driver->addTrip(trip);
-        server->moveOn(driver->getLocation(), driver->getSocketCom());
+        //server->moveOn(driver->getLocation(), driver->getSocketCom());
 
         cout<<driverID<<"assigned"<<endl;
         return;
@@ -309,6 +316,7 @@ void* TaxiStation::flow(void *threadData){
     dataThread* td  =(dataThread*)threadData;
     TaxiStation* tx = td->tx;
     int id = td->driverId;
+    int threadCounter=0;
     while (1) {
         if(isMissionDone == false) {
             switch (mission) {
@@ -321,7 +329,10 @@ void* TaxiStation::flow(void *threadData){
                 case 9: {
                     cout<<id<<"got to static flow"<<endl;
                     tx->start(id);
-                    isMissionDone = true;
+                    threadCounter++;
+                    if (threadCounter == tx->numberOfDrivers) {
+                        isMissionDone = true;
+                    }
                     break;
                 }
                 case EXIT: {

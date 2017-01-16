@@ -22,19 +22,21 @@ class TaxiStation {
 private:
     vector<Trip*> trips;
     vector<Driver*> drivers;
-    vector<Node*> Location;
     vector<Cab*> cabs;
     Node *p;
     int findTripNumInVector(int tripId);
     Driver* findDriverAlreadyArrived(int startX,int startY,int id);
   //  Clock clock;
     Server* server;
+    vector<pthread_t >threadVec;
+   // vector<dataThread*> structVec;
     struct dataThread{
         TaxiStation *tx;
         int cDescriptor;
         int driverId;
     };
 public:
+    int numberOfDrivers;
     /**
      * constructor
      */
