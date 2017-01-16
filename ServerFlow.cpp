@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
             }*/
             case MOVE_ON: {
                 globalClock.incTime();
-                tx->matchTrip();
+                tx->matchTrip();//
                 for(int i = 0; i < isMissionDone.size(); i++) {
                     isMissionDone.at(i) = false;
                 }
