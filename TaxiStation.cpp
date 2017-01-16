@@ -9,7 +9,7 @@ int mission;
 //bool isMissionDone;
 Clock globalClock;
 pthread_mutex_t mutexLock;
-vector<bool> isMissionDone;
+vector<bool> isMissionDone;//
 #define EXIT 7
 
 

@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
             case MOVE_ON: {
                 cout<<"9 on main thread"<<endl;
                 globalClock.incTime();
-                for(int i = 0; i < isMissionDone.size(); i++) {
+                for(int i = 0; i < isMissionDone.size(); i++) {//
                     isMissionDone.at(i) = false;
                 }
                 //sleep(5);
