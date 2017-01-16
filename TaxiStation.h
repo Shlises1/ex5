@@ -25,7 +25,7 @@ private:
     vector<Cab*> cabs;
     Node *p;
     int findTripNumInVector(int tripId);
-    Driver* findDriverAlreadyArrived(int startX,int startY,int id);//
+    Driver* findDriverAlreadyArrived(int startX,int startY,int id);
   //  Clock clock;
     Server* server;
     vector<pthread_t >threadVec;

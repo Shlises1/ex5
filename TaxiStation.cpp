@@ -312,7 +312,7 @@ Trip* TaxiStation:: matchTrip(){
 Server* TaxiStation::getConn() {
     return server;
 }
-void* TaxiStation::flow(void *threadData){//
+void* TaxiStation::flow(void *threadData){
     dataThread* td  =(dataThread*)threadData;
     TaxiStation* tx = td->tx;
     int id = td->driverId;
