@@ -271,13 +271,16 @@ void TaxiStation::start(int driverID) {
         cout<<driverID<<"assigned"<<endl;
         return;
     }*/
-        driver->doOneStep();
-        server->moveOn(driver->getLocation(), driver->getSocketCom());
-        cout << driverID << "moved one step" << endl;
-        if (driver->getTrip()->isDone() == true) {
-               int x = findTripNumInVector(driver->getTrip()->getRideID());
-               trips.erase(trips.begin() + x);
-            driver->deletetrip();
+
+        if(driver->getTrip()!= NULL) {
+            driver->doOneStep();
+            server->moveOn(driver->getLocation(), driver->getSocketCom());
+            cout << driverID << "moved one step" << endl;
+            if (driver->getTrip()->isDone() == true) {
+                int x = findTripNumInVector(driver->getTrip()->getRideID());
+                trips.erase(trips.begin() + x);
+                driver->deletetrip();
+            }
         }
     }
 }
@@ -285,18 +288,20 @@ void TaxiStation::start(int driverID) {
  *
  * @return the first driver in the driver's vector
  */
-Driver* TaxiStation::getDriver() { return drivers[0];}
+Driver* TaxiStation::getDriver(int i) { return drivers[i];}
 /**
  *
  * @return the trip that strats now. if there is not such one - return null.
  */
 void TaxiStation:: matchTrip(){
-   // Trip* maxTrip = trips[0];
+   cout<<"matchTrip"<<endl;
     for(int i = 0; i < trips.size(); i++){
         if(globalClock.getTime() == trips.at(i)->getTimeOfStart()){
             for(int j = 0; j < drivers.size();j++) {
                 if(drivers.at(j)->getIsDone() == true) {
                     drivers.at(j)->addTrip(trips.at(i));
+                    isMissionDone[j] = true;
+                    cout<<drivers[j]->getDriverID()<<"assigned"<<endl;
                     //int x = findTripNumInVector(trips[i]->getRideID());
                    // trips.erase(trips.begin() + x);
                     break;
@@ -327,28 +332,18 @@ void* TaxiStation::flow(void *threadData){
     int i = td->i;
     while (1) {
         if(isMissionDone.at(i) == false) {
-            switch (mission) {
-                /*
-                case DRIVER_LOCATION: {
-                    tx->getDriverLocation(id);
-                    isMissionDone = true;
-                    break;
-                }*/
-                case 9: {
                     cout<<id<<"got to static flow"<<endl;
                     tx->start(id);
                     isMissionDone.at(i) = true;
-                    break;
                 }
-                case EXIT: {
-                    tx->getConn()->endConn(td->cDescriptor);
-                    delete td;
-                    pthread_exit(NULL);
-                }
-            }
+        if(mission == EXIT) {
+            tx->getConn()->endConn(td->cDescriptor);
+            delete td;
+            pthread_exit(NULL);
         }
+    }
+}
         //?
        // cin >> mission;
-    }
 
-}
+
