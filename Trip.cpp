@@ -112,7 +112,9 @@ Node* Trip:: getMapCurrent(){
  * return the next point in the trip pass, according to he speed of the cab.
  */
 Node* Trip::getNext(){
+    cout <<"before join"<<endl;
     pthread_join(tripThread,NULL);
+    cout <<"after join"<<endl;
     if(speed == 1){
         currentP = pass.front();
     }else if (speed == 2){

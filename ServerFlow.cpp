@@ -52,9 +52,11 @@ int main(int argc, char **argv) {
     while (1) {
         switch (mission) {
             case RECIEVE_DRIVER: {
+                cout<<"press 1 to enter driver"<<endl;
                 cin >> numDrivers;
                 //for (int i=0;i<numDrivers;i++) {
                     tx->addDrivers(numDrivers);
+                cout<<"after add driver main thread"<<endl;
                // }
                 break;
             }
@@ -82,6 +84,7 @@ int main(int argc, char **argv) {
                 break;
             }*/
             case MOVE_ON: {
+                cout<<"9 on main thread"<<endl;
                 globalClock.incTime();
                 tx->matchTrip();//
                 for(int i = 0; i < isMissionDone.size(); i++) {

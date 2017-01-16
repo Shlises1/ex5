@@ -98,6 +98,7 @@ void ClientOps::addDriver(string dInput) {
  * send driver to server
  */
 void ClientOps::sendDriver() {
+    cout<<"befor sending driver"<<endl;
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
@@ -106,4 +107,5 @@ void ClientOps::sendDriver() {
     s.flush();
     //std::string serial_str = "hello";
     con->sendData(serial_str,-1);
+    cout<<"after sending driver"<<endl;
 }
