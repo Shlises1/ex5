@@ -183,6 +183,7 @@ public:
      * @return the speed
      */
     int getSpeed();
+    bool checkIfThreadIsDone();
     void threadCalcPass();
 };
 

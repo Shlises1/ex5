@@ -144,13 +144,15 @@ void TaxiStation::getDriverLocation(int id) {
     /**
      * location is saved uniqely in driver object
      */
-        for (int i = 0; i < drivers.size(); i++) {
-            if (drivers[i]->getDriverID() == id) {
-                cout << (*drivers[i]->getLocation()) << endl;
-                return;
-            }
+    for (int i = 0; i < drivers.size(); i++) {
+
+        if (drivers[i]->getDriverID() == id) {
+                    cout << (*drivers[i]->getLocation()) << endl;
+                    return;
         }
     }
+}
+//    }
 
 /**
  * Get Trip object by id
@@ -161,47 +163,6 @@ Trip* TaxiStation::getTrip(int id) {
     for (int i = 0; i < trips.size(); i++) {
         if (trips[i]->getRideID() == id) {
             return trips[i];
-        }
-    }
-}
-/**
- * Start all trips added
- */
-void TaxiStation::startAll() {
-    int id;
-    Driver* d;
-    for (int i=0;i<drivers.size();i++) {
-        for (int j=0;j<trips.size();j++) {
-            //find if any driver arrived to desired place erlier
-            d = findDriverAlreadyArrived(trips[j]->getStartX(),trips[j]->getStartY(),drivers[i]->getDriverID());
-            if (d == NULL) {
-                if (drivers[i]->getLocation()->getX() == trips[j]->getStartX() &&
-                    drivers[i]->getLocation()->getY() == trips[j]->getStartY()) {
-                    trips[j]->getNext();
-                    //make a copy of trip current location after the ride is ended
-                    p = trips[j]->getMapCurrent()->clone();
-                    drivers[i]->setLocation(p);
-                    drivers[i]->increaseSteps();
-                    id = findTripNumInVector(trips[j]->getRideID());
-                    delete (trips[j]);
-                    //delete the trip from vector
-                    trips.erase(trips.begin() + id);
-                }
-            } else {
-                //A driver Arrived before
-                trips[j]->getNext();
-                //make a copy of trip current location after the ride is ended
-                p = trips[j]->getMapCurrent()->clone();
-                d->setLocation(p);
-                d->increaseSteps();
-                id = findTripNumInVector(trips[j]->getRideID());
-                delete (trips[j]);
-                //delete the trip from vector
-                trips.erase(trips.begin() + id);
-            }
-            if (trips.size() == 0) {
-                return;
-            }
         }
     }
 }
@@ -256,22 +217,6 @@ void TaxiStation::start(int driverID) {
   //  clock.incTime();
     //assign
     if (driver->getIsDone() == false) {
-        /*
-        pthread_mutex_lock(&mutexLock);
-        Trip* trip = matchTrip();
-        if(trip == NULL){
-            pthread_mutex_unlock(&mutexLock);
-            return;
-        }
-        server->sendTrip(trip,driver->getSocketCom());
-        server->sendCab(driver->getCab(),driver->getSocketCom());
-        pthread_mutex_unlock(&mutexLock);
-        driver->addTrip(trip);
-        server->moveOn(driver->getLocation(), driver->getSocketCom());
-
-        cout<<driverID<<"assigned"<<endl;
-        return;
-    }*/
 
         if(driver->getTrip()!= NULL) {
             //means that it has just assigned to a trip and doedn't need to move one step
@@ -279,9 +224,13 @@ void TaxiStation::start(int driverID) {
                 driver->setCounter(2);
                 return;
             }
-            driver->doOneStep();
-            server->moveOn(driver->getLocation(), driver->getSocketCom());
-            cout << driverID << "moved one step" << endl;
+            if (driver->getTrip()->checkIfThreadIsDone()) {
+                driver->doOneStep();
+                //driver->startDoOneStepThread();
+                //driver->setDoOneStepFlag(true);
+                server->moveOn(driver->getLocation(), driver->getSocketCom());
+                cout << driverID << "moved one step" << endl;
+            }
             if (driver->getTrip()->isDone() == true) {
                 int x = findTripNumInVector(driver->getTrip()->getRideID());
                 trips.erase(trips.begin() + x);
@@ -299,7 +248,7 @@ Driver* TaxiStation::getDriver(int i) { return drivers[i];}
  *
  * @return the trip that strats now. if there is not such one - return null.
  */
-void TaxiStation:: matchTrip(){
+void TaxiStation:: matchTrip() {
    cout<<"matchTrip"<<endl;
     for(int i = 0; i < trips.size(); i++){
         if(globalClock.getTime() == trips.at(i)->getTimeOfStart()){
@@ -309,16 +258,10 @@ void TaxiStation:: matchTrip(){
                     isMissionDone[j] = true;
                     drivers.at(j)->setCounter(1);
                     cout<<drivers[j]->getDriverID()<<"assigned"<<endl;
-                    //int x = findTripNumInVector(trips[i]->getRideID());
-                   // trips.erase(trips.begin() + x);
+
                     break;
-                  //  server->sendTrip(trips[i],drivers[j]->getSocketCom());
-                    /*
-                    Trip *t = trips.at(i);
-                    int x = findTripNumInVector(t->getRideID());
-                    trips.erase(trips.begin() + x);
-                    return t;
-                     */
+                } else {
+                   // drivers.at(j)->setDoOneStepFlag(false);
                 }
             }
         }
@@ -350,7 +293,7 @@ void* TaxiStation::flow(void *threadData){
         }
     }
 }
-        //?
-       // cin >> mission;
+
+
 
 

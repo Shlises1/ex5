@@ -112,16 +112,16 @@ Node* Trip:: getMapCurrent(){
  * return the next point in the trip pass, according to he speed of the cab.
  */
 Node* Trip::getNext(){
-    cout <<"before join"<<endl;
-    pthread_join(tripThread,NULL);
-    cout <<"after join"<<endl;
+   // cout <<"before join"<<endl;
+    //pthread_join(tripThread,NULL);
+   // cout <<"after join"<<endl;
     if(speed == 1){
         currentP = pass.front();
-    }else if (speed == 2){
+    } else if (speed == 2) {
         if((pass.front()->getX() != destP->getX())&&((pass.front()->getY() != destP->getY()))){
             pass.erase(pass.begin());
             currentP = pass.front();
-        } else{
+        } else {
             currentP = pass.back();
             if(pass.size() == 1){
                 done = 1;
@@ -205,9 +205,15 @@ void Trip::setSpeed(int newSpeed) {speed = newSpeed;}
  */
 int Trip::getSpeed() { return speed;}
 void* Trip::claculatePassWithThread(void* data){
-    cout <<"starting to calc trip"<<endl;
+   // cout <<"starting to calc trip"<<endl;
 
     Trip* trip = (Trip*)data;
     trip->createPass();
     return NULL;
+}
+bool Trip::checkIfThreadIsDone() {
+    cout<<"waiting for join from driver"<<endl;
+    pthread_join(tripThread,NULL);
+    cout<<"join from driver is done"<<endl;
+    return true;
 }

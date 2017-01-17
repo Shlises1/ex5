@@ -43,6 +43,9 @@ private:
     bool firstStep;
     int socketCom;
     int counter;
+    bool doOneStepFlag;
+    pthread_t doOneStepThread;
+    static void* startThread(void*);
     //serialize
     friend class boost::serialization::access;
 
@@ -59,6 +62,7 @@ private:
         ar & firstStep;
     }
 public:
+
     /**
      * constructor
      */
@@ -153,6 +157,9 @@ public:
     Cab* getCab();
     int getCounter();
     void setCounter(int newCounter);
+    void setDoOneStepFlag(bool val){doOneStepFlag = val;}
+    bool getDoOneStepFlag(){return doOneStepFlag;}
+    void startDoOneStepThread();
 };
 
 

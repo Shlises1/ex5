@@ -3,10 +3,13 @@
 //
 
 #include "Driver.h"
+#include <mutex>          // std::mutex
 
+std::mutex mtx;
 /**
  * constractor
  */
+
 Driver::Driver() {}
 /**
  * constructor
@@ -30,6 +33,7 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
     trip = NULL;
     firstStep = true;
     socketCom = -1;
+    doOneStepFlag = true;
 }
 /**
  * Destructor
@@ -41,6 +45,7 @@ Driver::~Driver() {
     if(location != NULL) {
        // delete (location);
     }
+    pthread_exit(&doOneStepThread);
     return;
 }
 /**
@@ -57,7 +62,10 @@ int Driver :: getDriverID(){ return ID;}
  *
  * @return location
  */
-Node* Driver:: getLocation(){ return location;}
+Node* Driver:: getLocation() {
+        pthread_join(doOneStepThread,NULL);
+        return location;
+}
 /**
  * sests the location to a new one
  * @param p - the new location
@@ -81,15 +89,17 @@ int Driver::getSteps() { return steps;}
  * move the driver one step in the pass of the trip
  */
 void Driver::doOneStep() {
-    if(firstStep == true){
-        delete(location);
-        location = NULL;
-        firstStep = false;
-    }
+    cout<<"calc do one step"<<endl;
+        if (firstStep == true) {
+            delete (location);
+            location = NULL;
+            firstStep = false;
+        }
     location = trip->getNext();
-    if (location->getX() == trip->getEndX() && location->getY() == trip->getEndY()) {
-        isTripDone = true;
-    }
+    cout<<"stop calc do one step"<<endl;
+        if (location->getX() == trip->getEndX() && location->getY() == trip->getEndY()) {
+            isTripDone = true;
+        }
 }
 /**
  * assign a new trip to the driver
@@ -110,10 +120,7 @@ Trip* Driver:: getTrip(){ return trip;}
  * true if the trip is done, else false
  */
 void Driver::setTripDone(bool b){ isTripDone = b;}
-/*
- * changes the trip
- */
-void setTrip(Trip* newTrip){}
+
 /**
  * changes the trip
  * @param newTrip - the new trip
@@ -143,6 +150,14 @@ int Driver:: getCabID(){ return cabID; }
  *
  * @return true if the trip the driver is doing is done, else return false
  */
+void Driver::startDoOneStepThread() {
+    Driver* dForThread = this;
+    pthread_create(&doOneStepThread,NULL,startThread,dForThread);
+}
+void* Driver::startThread(void * data) {
+    Driver* d = (Driver*)data;
+    d->doOneStep();
+}
 bool Driver::getIsDone() { return isTripDone;}
 int Driver::getSocketCom() { return socketCom;}
 void Driver::setSocketCom(int socketC) {socketCom = socketC;}
