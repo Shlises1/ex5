@@ -118,6 +118,7 @@ public:
      * @return the cab with the given id
      */
     Cab* getCabByID(int id);
+    void IncreaseAll();
     static void* flow(void* driverId);
     static void* calculatePass(void* trip);
     static void* clientSwitch(void* tx);

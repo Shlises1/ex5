@@ -239,6 +239,13 @@ void TaxiStation::start(int driverID) {
         }
     }
 }
+/*void TaxiStation::IncreaseAll() {
+    for (int i=0;i<drivers.size();i++) {
+        if (drivers[i]->getTrip()->checkIfThreadIsDone())
+        drivers[i]->doOneStep();
+    }*/
+
+
 /**
  *
  * @return the first driver in the driver's vector
@@ -285,7 +292,7 @@ void* TaxiStation::flow(void *threadData){
                     cout<<id<<"got to static flow"<<endl;
                     tx->start(id);
                     isMissionDone.at(i) = true;
-                }
+        }
         if(mission == EXIT) {
             tx->getConn()->endConn(td->cDescriptor);
             delete td;

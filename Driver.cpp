@@ -150,14 +150,14 @@ int Driver:: getCabID(){ return cabID; }
  *
  * @return true if the trip the driver is doing is done, else return false
  */
-void Driver::startDoOneStepThread() {
+/*void Driver::startDoOneStepThread() {
     Driver* dForThread = this;
     pthread_create(&doOneStepThread,NULL,startThread,dForThread);
 }
 void* Driver::startThread(void * data) {
     Driver* d = (Driver*)data;
     d->doOneStep();
-}
+}*/
 bool Driver::getIsDone() { return isTripDone;}
 int Driver::getSocketCom() { return socketCom;}
 void Driver::setSocketCom(int socketC) {socketCom = socketC;}

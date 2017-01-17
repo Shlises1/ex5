@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
             }
             case DRIVER_LOCATION: {
                 cin >> id;
-                if (tx->getDriverByID(id)->getTrip()->checkIfThreadIsDone())
+                //if (tx->getDriverByID(id)->getTrip()->checkIfThreadIsDone())
                 tx->getDriverLocation(id);//
                 break;
             }/*
@@ -87,7 +87,6 @@ int main(int argc, char **argv) {
             case MOVE_ON: {
                 cout<<"9 on main thread"<<endl;
                 globalClock.incTime();
-                tx->matchTrip();
                 for(int i = 0; i < isMissionDone.size(); i++) {
                     isMissionDone.at(i) = false;
                 }
