@@ -5,11 +5,13 @@
 #include <mutex>
 #include "TaxiStation.h"
 #include "MapCreator.h"
-int mission;
+ int mission;
 //bool isMissionDone;
-Clock globalClock;
-pthread_mutex_t mutexLock;
-vector<bool> isMissionDone;//
+ Clock globalClock;
+ vector<bool> isMissionDone;//
+ int numOfMoveOn;
+ std::vector<int> printHour;
+ std::vector<int>printId;
 #define EXIT 7
 
 
@@ -47,11 +49,12 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         drivers.push_back(server->setDriver(x));
         drivers[i]->setSocketCom(x);
         drivers[i]->setCounter(0);
+        drivers[i]->setCab(getCabByID(drivers[i]->getCabID()));
         dThread->tx = this;
         dThread->cDescriptor = x;
         dThread->driverId = drivers[i]->getDriverID();
         dThread->i = i;
-        isMissionDone.push_back(true);
+//        isMissionDone.push_back(true);
         pthread_t rThr;
         int status = pthread_create(&rThr,NULL,flow,dThread);
         if (status)
@@ -59,8 +62,8 @@ void TaxiStation::addDrivers(int numOfDrivers) {
             cout<<"error opening thread"<<endl;
             return;
         }
-        drivers[i]->setCab(getCabByID(drivers[i]->getCabID()));
-        server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
+
+        //server->sendCab(drivers[i]->getCab(), drivers[i]->getSocketCom());
         //server->sendTrip(trips[0]);
     }
 
@@ -145,10 +148,9 @@ void TaxiStation::getDriverLocation(int id) {
      * location is saved uniqely in driver object
      */
     for (int i = 0; i < drivers.size(); i++) {
-
         if (drivers[i]->getDriverID() == id) {
-                    cout << (*drivers[i]->getLocation()) << endl;
-                    return;
+            cout << (*drivers[i]->getLocation()) << endl;
+            return;
         }
     }
 }
@@ -220,14 +222,12 @@ void TaxiStation::start(int driverID) {
 
         if(driver->getTrip()!= NULL) {
             //means that it has just assigned to a trip and doedn't need to move one step
-            if(driver->getCounter() == 1){
+           /* if(driver->getCounter() == 1){
                 driver->setCounter(2);
                 return;
-            }
+            }*/
             if (driver->getTrip()->checkIfThreadIsDone()) {
                 driver->doOneStep();
-                //driver->startDoOneStepThread();
-                //driver->setDoOneStepFlag(true);
                 server->moveOn(driver->getLocation(), driver->getSocketCom());
                 cout << driverID << "moved one step" << endl;
             }
@@ -243,7 +243,7 @@ void TaxiStation::start(int driverID) {
     for (int i=0;i<drivers.size();i++) {
         if (drivers[i]->getTrip()->checkIfThreadIsDone())
         drivers[i]->doOneStep();
-    }*/
+}*/
 
 
 /**
@@ -255,15 +255,16 @@ Driver* TaxiStation::getDriver(int i) { return drivers[i];}
  *
  * @return the trip that strats now. if there is not such one - return null.
  */
-void TaxiStation:: matchTrip() {
+void TaxiStation:: matchTrip(int counter) {
    cout<<"matchTrip"<<endl;
     for(int i = 0; i < trips.size(); i++){
-        if(globalClock.getTime() == trips.at(i)->getTimeOfStart()){
+        if(counter == trips[i]->getTimeOfStart()){
             for(int j = 0; j < drivers.size();j++) {
-                if(drivers.at(j)->getIsDone() == true) {
-                    drivers.at(j)->addTrip(trips.at(i));
-                    isMissionDone[j] = true;
-                    drivers.at(j)->setCounter(1);
+                if(drivers[j]->getIsDone() == true) {
+                    drivers[j]->addTrip(trips[i]);
+
+//                    isMissionDone[j] = true;
+                    drivers[j]->setCounter(1);
                     cout<<drivers[j]->getDriverID()<<"assigned"<<endl;
 
                     break;
@@ -285,14 +286,24 @@ Server* TaxiStation::getConn() {
 void* TaxiStation::flow(void *threadData){
     dataThread* td  =(dataThread*)threadData;
     TaxiStation* tx = td->tx;
+    int counter=0;
     int id = td->driverId;
     int i = td->i;
-    while (1) {
-        if(isMissionDone.at(i) == false) {
-                    cout<<id<<"got to static flow"<<endl;
-                    tx->start(id);
-                    isMissionDone.at(i) = true;
-        }
+    while (counter < numOfMoveOn) {
+       // if(isMissionDone.at(i) == false) {
+            if ( printHour.size() >0 && printHour[0]== counter) {
+                if (printId.size() > 0 && id == printId[0]) {
+                    tx->getDriverLocation(id);
+                    printId.erase(printId.begin());
+                    printHour.erase(printHour.begin());
+                }
+            }
+                cout << id << "got to static flow" << endl;
+                tx->start(id);
+                counter++;
+                tx->matchTrip(counter);
+
+   //     }
         if(mission == EXIT) {
             tx->getConn()->endConn(td->cDescriptor);
             delete td;

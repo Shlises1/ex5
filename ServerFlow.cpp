@@ -11,7 +11,10 @@
 #include <unistd.h>
 //#include <mutex>
 extern Clock globalClock;
-extern int mission;
+ extern int mission;
+ extern std::vector<int> printHour;
+ extern std::vector<int>printId;
+extern  int numOfMoveOn;
 //extern bool isMissionDone;
 extern vector<bool> isMissionDone;
 //std::mutex mu;
@@ -26,6 +29,11 @@ extern vector<bool> isMissionDone;
 
 using namespace std;
 int main(int argc, char **argv) {
+    //int numOfMoveOn;
+    numOfMoveOn++;
+    // std::vector<int> printHour;
+    // std::vector<int>printId;
+
     globalClock = Clock();
     string gridSize, obs, obsChain = "";
     string input;
@@ -77,7 +85,9 @@ int main(int argc, char **argv) {
             case DRIVER_LOCATION: {
                 cin >> id;
                 //if (tx->getDriverByID(id)->getTrip()->checkIfThreadIsDone())
-                tx->getDriverLocation(id);//
+                printHour.push_back(globalClock.getTime());
+                printId.push_back(id);
+             //   tx->getDriverLocation(id);//
                 break;
             }/*
             case STRART_DRIVING: {
@@ -87,15 +97,17 @@ int main(int argc, char **argv) {
             case MOVE_ON: {
                 cout<<"9 on main thread"<<endl;
                 globalClock.incTime();
-                for(int i = 0; i < isMissionDone.size(); i++) {
-                    isMissionDone.at(i) = false;
-                }
+                numOfMoveOn++;
+//                for(int i = 0; i < isMissionDone.size(); i++) {
+          //          isMissionDone.at(i) = false;
+         //       }
+                //tx->matchTrip();
                 break;
             }
             case EXIT: {
-                for(int i = 0; i < isMissionDone.size(); i++) {
-                    isMissionDone.at(i) = false;
-                }
+          //      for(int i = 0; i < isMissionDone.size(); i++) {
+           //         isMissionDone.at(i) = false;
+           //     }
                 delete (tx);
                 return 0;
             }

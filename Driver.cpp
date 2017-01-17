@@ -63,7 +63,6 @@ int Driver :: getDriverID(){ return ID;}
  * @return location
  */
 Node* Driver:: getLocation() {
-        pthread_join(doOneStepThread,NULL);
         return location;
 }
 /**

@@ -106,7 +106,7 @@ public:
      *
      * @return the trip that strats now. if there is not such one - return null.
      */
-    void matchTrip();//g
+    void matchTrip(int);//g
     /**
      *
      * @return udp connection
