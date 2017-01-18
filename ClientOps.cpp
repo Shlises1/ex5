@@ -3,7 +3,6 @@
 //
 
 #include "ClientOps.h"
-#include "Udp.h"
 #include "MapCreator.h"
 
 ClientOps::ClientOps(char* ipInput, int portInput) {
@@ -30,6 +29,7 @@ ClientOps::~ClientOps() {
         cabVec.erase(cabVec.begin()+i);
     }
     //close conneection
+    delete currPoint;
     delete  con;
 }
 /**
@@ -39,6 +39,9 @@ ClientOps::~ClientOps() {
 Socket* ClientOps::getConnection() {//
     return con;
 }
+Node* ClientOps::getCurrentPoint() {
+
+}
 /**
  * set current driver location according to server
  * @param buffer location object
@@ -46,13 +49,13 @@ Socket* ClientOps::getConnection() {//
  */
 void ClientOps::updateDriver(char *buffer,int size) {
     std::string serial_str (buffer, size);
-    Node* loc;
+
     //unserialize the location
     boost::iostreams::basic_array_source<char> device(serial_str.c_str(), serial_str.size());
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
-    ia >> loc;
-    delete loc->getFather();
+    ia >> currPoint;
+   // delete loc->getFather();
     //driverVec[0]->setLocation(loc);
 
 }

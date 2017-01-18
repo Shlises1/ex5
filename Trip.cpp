@@ -45,7 +45,7 @@ Trip::~Trip()   {
  * @return metter passed
  */
 double Trip:: getMetterPassed(){return 0.0;}
-/**//
+/**
  *
  * @return the time that the trip need to start
  */

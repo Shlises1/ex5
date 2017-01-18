@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.5)
 project(ex5)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-set(core_sockets Socket.cpp Udp.cpp)
+set(core_sockets Socket.cpp)
 add_library(sockets ${core_sockets})
 set(SOURCE_FILES Trip.cpp Trip.h Driver.cpp Driver.h Cab.cpp Cab.h LuxuryCab.cpp
         LuxuryCab.h Passenger.cpp Passenger.h StationInfo.cpp StationInfo.h  Map.cpp Map.h CreateLayout.cpp CreateLayout.h MapCreator.cpp
         MapCreator.h CabFactory.cpp CabFactory.h Bfs.cpp Bfs.h
         Grid.cpp Node.cpp ParseFromString.cpp PointBase.cpp PointHistory.cpp
-         SearchAlgo.cpp SearchAlgo.h Udp.cpp Udp.h Socket.cpp Socket.h Server.cpp Server.h
+         SearchAlgo.cpp SearchAlgo.h Socket.cpp Socket.h Server.cpp Server.h
         Clock.cpp Clock.h Tcp.cpp Trip.h)
 set(BOOST_ROOT CACHE PATH "/usr/include/boost/")
 find_package(Boost 1.58.0 COMPONENTS serialization system)

@@ -2,10 +2,10 @@
 #include "ParseFromString.h"
 //#include "MapCreator.h"
 #include "StationInfo.h"
+#include "Tcp.h"
 #include <stdlib.h>
 #include "TaxiStation.h"
 #include <stdlib.h>
-#include "Udp.h"
 #include "Server.h"
 #include "LuxuryCab.h"
 #include <unistd.h>
@@ -19,7 +19,7 @@ extern  int numOfMoveOn;
 //extern bool isMissionDone;
 extern vector<bool> isMissionDone;
 extern bool keepMove;
-vector<pthread_t> tVec;
+extern vector<pthread_t> tVec;
 //std::mutex mu;
 #define RECIEVE_DRIVER 1
 #define RIDE 2

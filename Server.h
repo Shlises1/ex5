@@ -26,9 +26,6 @@
 #include "PointHistory.h"
 #include "Driver.h"
 
-
-
-
 class Server {
 private:
     int driverId;
