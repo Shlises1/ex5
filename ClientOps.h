@@ -28,6 +28,7 @@ public:
     void addTrip(char* buffer,int size);
     void addDriver(string dInput);
     void sendDriver();
+    Node* getCurrentPoint();
 };
 
 

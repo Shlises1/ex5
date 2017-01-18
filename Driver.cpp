@@ -42,7 +42,7 @@ Driver::~Driver() {
     /*if(trip != NULL) {
         delete (trip);
     }*/
-    if(location != NULL) {
+    if(location != NULL) {//
      //   delete (location);
     }
 //    pthread_exit(&doOneStepThread);

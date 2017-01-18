@@ -36,7 +36,7 @@ ClientOps::~ClientOps() {
  * connection getter
  * @return Socket connection
  */
-Socket* ClientOps::getConnection() {
+Socket* ClientOps::getConnection() {//
     return con;
 }
 /**

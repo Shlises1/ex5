@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
                 printHour.push_back(globalClock.getTime());
                 printId.push_back(id);
              //   tx->getDriverLocation(id);//
-                break;
+                break;//
             }/*
             case STRART_DRIVING: {
                 tx->startAll();

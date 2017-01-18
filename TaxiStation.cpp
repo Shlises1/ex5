@@ -232,7 +232,7 @@ void TaxiStation::start(int driverID) {
             }*/
             if (driver->getTrip()->checkIfThreadIsDone()) {
                 driver->doOneStep();
-                server->moveOn(driver->getLocation(), driver->getSocketCom());
+                server->moveOn(driver->getLocation(), driver->getSocketCom());//
                 cout << driverID << "moved one step" << endl;
             }
             if (driver->getTrip()->isDone() == true) {
