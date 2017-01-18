@@ -91,7 +91,7 @@ void Driver::doOneStep() {
 
     cout<<"calc do one step"<<endl;
         if (firstStep == true) {
-           // delete (location);
+            delete (location);
             location = NULL;
             firstStep = false;
         }

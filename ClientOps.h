@@ -10,6 +10,7 @@
 #include "StationInfo.h"
 #include "Socket.h"
 #include "Tcp.h"
+#include "Udp.h"
 
 class ClientOps {
 private:
@@ -18,6 +19,7 @@ private:
     vector<Trip*>tripVec;
     vector<Cab*>cabVec;
     StationInfo sInfo;
+    vector<Node*>routeVec;
 public:
     ClientOps(char* ipInput, int portInput);
     ~ClientOps();
@@ -27,7 +29,7 @@ public:
     void addTrip(char* buffer,int size);
     void addDriver(string dInput);
     void sendDriver();
-    Node* getCurrentPoint();
+    void getRoute();
 };
 
 

@@ -13,7 +13,7 @@
  std::vector<int> printHour;
  std::vector<int>printId;
  bool keepMove;
- vector<pthread_t> tVec;
+ extern vector<pthread_t> tVec;
  std::mutex mu;
 #define EXIT 7
 

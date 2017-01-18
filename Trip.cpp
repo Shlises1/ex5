@@ -45,10 +45,7 @@ Trip::~Trip()   {
  * @return metter passed
  */
 double Trip:: getMetterPassed(){return 0.0;}
-/**
- *
- * @return the time that the trip need to start
- */
+
 int Trip:: getTimeOfStart(){ return timpOfStart;}
 /**
  *
@@ -174,6 +171,7 @@ void Trip:: setObsChain(string obsChainInput){ obsChain = obsChainInput;}
  * return a vector that contains the pass of the trip
  */
 vector<Node*> Trip:: getpass() {
+    pthread_join(tripThread,NULL);
     return pass;
 }
 void Trip::threadCalcPass() {
