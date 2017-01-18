@@ -31,6 +31,7 @@ private:
     vector<Node*> pass;
     int speed;
     pthread_t tripThread;
+
     //serialize
     friend class boost::serialization::access;
     template <class Archive>
@@ -73,6 +74,8 @@ public:
      *
      * @return metter passed
      */
+    bool taken;
+
     double getMetterPassed();
     /**
      *

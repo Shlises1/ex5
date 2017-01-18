@@ -39,13 +39,13 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
  * Destructor
  */
 Driver::~Driver() {
-    if(trip != NULL) {
+    /*if(trip != NULL) {
         delete (trip);
-    }
+    }*/
     if(location != NULL) {
-       // delete (location);
+     //   delete (location);
     }
-    pthread_exit(&doOneStepThread);
+//    pthread_exit(&doOneStepThread);
     return;
 }
 /**
@@ -70,7 +70,7 @@ Node* Driver:: getLocation() {
  * @param p - the new location
  */
 void Driver::setLocation(Node* p) {
-    delete (location);
+   // delete (location);
     location = p;
 }
 /**
@@ -88,9 +88,10 @@ int Driver::getSteps() { return steps;}
  * move the driver one step in the pass of the trip
  */
 void Driver::doOneStep() {
+
     cout<<"calc do one step"<<endl;
         if (firstStep == true) {
-            delete (location);
+           // delete (location);
             location = NULL;
             firstStep = false;
         }
@@ -104,7 +105,8 @@ void Driver::doOneStep() {
  * assign a new trip to the driver
  * @param newTrip - the new trip to assign
  */
-void Driver::addTrip(Trip* newTrip){
+void Driver::addTrip(Trip* newTrip) {
+   // delete trip;
     trip = newTrip;
     isTripDone = false;
     trip->setSpeed(cab->getSpeed());

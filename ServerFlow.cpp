@@ -9,6 +9,7 @@
 #include "Server.h"
 #include "LuxuryCab.h"
 #include <unistd.h>
+#include <pthread.h>
 //#include <mutex>
 extern Clock globalClock;
  extern int mission;
@@ -17,6 +18,8 @@ extern Clock globalClock;
 extern  int numOfMoveOn;
 //extern bool isMissionDone;
 extern vector<bool> isMissionDone;
+extern bool keepMove;
+vector<pthread_t> tVec;
 //std::mutex mu;
 #define RECIEVE_DRIVER 1
 #define RIDE 2
@@ -29,6 +32,7 @@ extern vector<bool> isMissionDone;
 
 using namespace std;
 int main(int argc, char **argv) {
+    keepMove = true;
     //int numOfMoveOn;
     numOfMoveOn++;
     // std::vector<int> printHour;
@@ -108,6 +112,10 @@ int main(int argc, char **argv) {
           //      for(int i = 0; i < isMissionDone.size(); i++) {
            //         isMissionDone.at(i) = false;
            //     }
+                keepMove = false;
+                for (int i=0;i<tVec.size();i++) {
+                    pthread_join(tVec[i],NULL);
+                }
                 delete (tx);
                 return 0;
             }

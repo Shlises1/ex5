@@ -12,6 +12,9 @@
  int numOfMoveOn;
  std::vector<int> printHour;
  std::vector<int>printId;
+ bool keepMove;
+ extern vector<pthread_t> tVec;
+ std::mutex mu;
 #define EXIT 7
 
 
@@ -55,8 +58,9 @@ void TaxiStation::addDrivers(int numOfDrivers) {
         dThread->driverId = drivers[i]->getDriverID();
         dThread->i = i;
 //        isMissionDone.push_back(true);
-        pthread_t rThr;
-        int status = pthread_create(&rThr,NULL,flow,dThread);
+        pthread_t newThread;
+        int status = pthread_create(&newThread,NULL,flow,dThread);
+        tVec.push_back(newThread);
         if (status)
         {
             cout<<"error opening thread"<<endl;
@@ -256,17 +260,22 @@ Driver* TaxiStation::getDriver(int i) { return drivers[i];}
  * @return the trip that strats now. if there is not such one - return null.
  */
 void TaxiStation:: matchTrip(int counter) {
+
    cout<<"matchTrip"<<endl;
     for(int i = 0; i < trips.size(); i++){
         if(counter == trips[i]->getTimeOfStart()){
             for(int j = 0; j < drivers.size();j++) {
-                if(drivers[j]->getIsDone() == true) {
-                    drivers[j]->addTrip(trips[i]);
+                if(drivers[j]->getIsDone() == true && !trips[i]->taken) {
+                    if ((trips[i]->getStartX() == drivers[j]->getLocation()->getX()) &&
+                            (trips[i]->getStartY() == drivers[j]->getLocation()->getY())) {
+                        drivers[j]->addTrip(trips[i]);
+                        trips[i]->taken = true;
 
+                        //  trips.erase(trips.begin() +i);
 //                    isMissionDone[j] = true;
-                    drivers[j]->setCounter(1);
-                    cout<<drivers[j]->getDriverID()<<"assigned"<<endl;
-
+                        drivers[j]->setCounter(1);
+                        cout << drivers[j]->getDriverID() << "assigned" << endl;
+                    }
                     break;
                 } else {
                    // drivers.at(j)->setDoOneStepFlag(false);
@@ -274,6 +283,7 @@ void TaxiStation:: matchTrip(int counter) {
             }
         }
     }
+
   //  return NULL;
 }
 /**
@@ -289,22 +299,30 @@ void* TaxiStation::flow(void *threadData){
     int counter=0;
     int id = td->driverId;
     int i = td->i;
-    while (counter < numOfMoveOn) {
-       // if(isMissionDone.at(i) == false) {
-            if ( printHour.size() >0 && printHour[0]== counter) {
-                if (printId.size() > 0 && id == printId[0]) {
-                    tx->getDriverLocation(id);
-                    printId.erase(printId.begin());
-                    printHour.erase(printHour.begin());
+    while (true) {
+        while (!keepMove) {
+            while (counter < numOfMoveOn) {
+                // if(isMissionDone.at(i) == false) {
+                if (printHour.size() > 0 && printHour[0] == counter) {
+                    if (printId.size() > 0 && id == printId[0]) {
+                        cout << "ENTER PRINT" << endl;
+                        tx->getDriverLocation(id);
+                        printId.erase(printId.begin());
+                        printHour.erase(printHour.begin());
+                    }
                 }
-            }
                 cout << id << "got to static flow" << endl;
                 tx->start(id);
                 counter++;
                 tx->matchTrip(counter);
 
-   //     }
-        if(mission == EXIT) {
+                //     }
+                /*if (mission == EXIT) {
+                    tx->getConn()->endConn(td->cDescriptor);
+                    delete td;
+                    pthread_exit(NULL);
+                }*/
+            }
             tx->getConn()->endConn(td->cDescriptor);
             delete td;
             pthread_exit(NULL);

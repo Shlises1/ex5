@@ -53,7 +53,7 @@ void ClientOps::updateDriver(char *buffer,int size) {
     boost::archive::binary_iarchive ia(s2);
     ia >> loc;
     delete loc->getFather();
-    driverVec[0]->setLocation(loc);
+    //driverVec[0]->setLocation(loc);
 
 }
 /**

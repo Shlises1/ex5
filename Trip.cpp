@@ -30,6 +30,7 @@ Trip::Trip(int idPar,int startXP,int startYP,int endXP,int endYP,int numPass,int
     currentP = startP;
     pass = vector<Node*>();
     done = false;
+    taken=false;
 }
 /**
  * destructor
