@@ -57,7 +57,6 @@ Grid::~Grid() {
  */
 bool Grid::run() {
     bool flag;
-    //currentP = &start;
     //while didnt reach the goal point
     while (!((currentP->getX()==goal.getX())&&(currentP->getY()==goal.getY()))) {
         int xAxes = currentP->getX();

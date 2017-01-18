@@ -152,14 +152,26 @@ public:
      * @return true if the trip the driver is doing is done, else return false
      */
     bool getIsDone();
+    /*
+     * returns the socket comunication of the client that represent the driver
+     */
     int getSocketCom();
+    /*
+     * sets the socket comunication of the client that represent the driver
+     */
     void setSocketCom(int socketC);
+    /*
+     * return the cab of the driver
+     */
     Cab* getCab();
+    /*
+     * return the counter that counts the moves of the driver
+     */
     int getCounter();
+    /*
+     * sets the counter that counts the moves of the driver
+     */
     void setCounter(int newCounter);
-    void setDoOneStepFlag(bool val){doOneStepFlag = val;}
-    bool getDoOneStepFlag(){return doOneStepFlag;}
-    void startDoOneStepThread();
 };
 
 

@@ -38,6 +38,9 @@ Driver* Server::setDriver(int socComu) {
 
 
 }
+/*
+ * recive the signal
+ */
 void Server:: getSignal(int communication) {
     char buffer[1024];
     soc->reciveData(buffer,sizeof(buffer),communication);

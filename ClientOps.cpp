@@ -5,7 +5,11 @@
 #include "ClientOps.h"
 #include "Udp.h"
 #include "MapCreator.h"
-
+/**
+ * constractor
+ * @param ipInput - the ip of the client
+ * @param portInput - the port of the client
+ */
 ClientOps::ClientOps(char* ipInput, int portInput) {
     sInfo = StationInfo();
     string ip = ipInput;

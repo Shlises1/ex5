@@ -294,6 +294,9 @@ void TaxiStation:: matchTrip(int counter) {
 Server* TaxiStation::getConn() {
     return server;
 }
+/*
+ * the flow for each thread to run
+ */
 void* TaxiStation::flow(void *threadData){
     dataThread* td  =(dataThread*)threadData;
     TaxiStation* tx = td->tx;

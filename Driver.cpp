@@ -160,8 +160,23 @@ void* Driver::startThread(void * data) {
     d->doOneStep();
 }*/
 bool Driver::getIsDone() { return isTripDone;}
+/*
+ * returns the socket comunication of the client that represent the driver
+ */
 int Driver::getSocketCom() { return socketCom;}
+/*
+ * sets the socket comunication of the client that represent the driver
+ */
 void Driver::setSocketCom(int socketC) {socketCom = socketC;}
+/*
+ * return the cab of the driver
+ */
 Cab* Driver::getCab() { return cab;}
+/*
+ * return the counter that counts the moves of the driver
+ */
 int Driver::getCounter() { return counter;}
+/*
+ * sets the counter that counts the moves of the driver
+ */
 void Driver::setCounter(int newCounter) {counter = newCounter;}

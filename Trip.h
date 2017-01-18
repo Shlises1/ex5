@@ -186,7 +186,13 @@ public:
      * @return the speed
      */
     int getSpeed();
+    /*
+     * checks if the bfs calculate is done
+     */
     bool checkIfThreadIsDone();
+    /*
+     * the function that the thread run
+     */
     void threadCalcPass();
 };
 

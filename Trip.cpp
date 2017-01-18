@@ -45,7 +45,9 @@ Trip::~Trip()   {
  * @return metter passed
  */
 double Trip:: getMetterPassed(){return 0.0;}
-
+/*
+ * return the time the trip should start
+ */
 int Trip:: getTimeOfStart(){ return timpOfStart;}
 /**
  *
@@ -174,6 +176,9 @@ vector<Node*> Trip:: getpass() {
     pthread_join(tripThread,NULL);
     return pass;
 }
+/*
+ * the function that the thread run
+ */
 void Trip::threadCalcPass() {
     Trip* t = this;
     pthread_create(&tripThread,NULL,claculatePassWithThread,t);
@@ -203,6 +208,9 @@ void Trip::setSpeed(int newSpeed) {speed = newSpeed;}
  * @return the speed
  */
 int Trip::getSpeed() { return speed;}
+/*
+ * the thread calculate the pass of the trip
+ */
 void* Trip::claculatePassWithThread(void* data){
    // cout <<"starting to calc trip"<<endl;
 
@@ -210,6 +218,9 @@ void* Trip::claculatePassWithThread(void* data){
     trip->createPass();
     return NULL;
 }
+/*
+ * checks if the bfs calculate is done
+ */
 bool Trip::checkIfThreadIsDone() {
     cout<<"waiting for join from driver"<<endl;
     pthread_join(tripThread,NULL);
