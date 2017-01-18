@@ -28,7 +28,7 @@ TaxiStation::TaxiStation(int x){
  * Destructor to delete all the vectors
  */
 TaxiStation::~TaxiStation() {
-  //  server->endConn();
+    //server->endConn(-1);
     for (int i=0;i<drivers.size();i++) {
         delete(drivers[i]);
     }
@@ -104,6 +104,7 @@ void TaxiStation::addTrip(Trip* trip) {
     trip->setMap(m);
     trips.push_back(trip);
     trip->threadCalcPass();
+   // server->sendRoute(trip->getpass(),-1);
 }
 /**
  *
@@ -232,7 +233,7 @@ void TaxiStation::start(int driverID) {
             }*/
             if (driver->getTrip()->checkIfThreadIsDone()) {
                 driver->doOneStep();
-                server->moveOn(driver->getLocation(), driver->getSocketCom());//
+                server->moveOn(driver->getLocation(), driver->getSocketCom());
                 cout << driverID << "moved one step" << endl;
             }
             if (driver->getTrip()->isDone() == true) {

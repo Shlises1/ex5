@@ -38,6 +38,10 @@ Driver* Server::setDriver(int socComu) {
 
 
 }
+void Server:: getSignal(int communication) {
+    char buffer[1024];
+    soc->reciveData(buffer,sizeof(buffer),communication);
+}
 /**
  * Send trip object to client
  * @param trip
@@ -80,6 +84,8 @@ void Server::moveOn(Node* loc, int socketComu) {
    // char buffer[2048];
     //tell client that his driver location needs to be updated
     soc->sendData("9",socketComu);
+    char buffer1[1024];
+    soc->reciveData(buffer1,sizeof(buffer1),socketComu);
     std::string serial_str ;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
@@ -87,6 +93,8 @@ void Server::moveOn(Node* loc, int socketComu) {
     oa << loc;
     s.flush();
     soc->sendData(serial_str,socketComu);
+    char buffer2[1024];
+    soc->reciveData(buffer2,sizeof(buffer2),socketComu);
 }
 /**
  * Client needs to close connection
@@ -104,4 +112,14 @@ void Server::printLocation() {
 }
 Socket* Server::getConnection() {
     return soc;
+}
+void Server::sendRoute(vector<Node *> route, int socketComu) {
+    //soc->sendData("9",socketComu);
+    std::string serial_str ;
+    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+    boost::archive::binary_oarchive oa(s);
+    oa << route;
+    s.flush();
+    soc->sendData(serial_str,socketComu);
 }

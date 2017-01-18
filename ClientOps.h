@@ -18,7 +18,6 @@ private:
     vector<Trip*>tripVec;
     vector<Cab*>cabVec;
     StationInfo sInfo;
-    Node* currPoint;
 public:
     ClientOps(char* ipInput, int portInput);
     ~ClientOps();

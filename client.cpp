@@ -26,18 +26,19 @@ int main(int argc, char *argv[]) {
     //mission num will hold the expected  object from server
     char buffer[2048];
     co.getConnection()->reciveData(missionNum, sizeof(missionNum), -1);
+    co.getConnection()->sendData("0",-1);
     while (1) {
         switch(missionNum[0]) {
             case '2':
             {
-                co.getConnection()->reciveData(buffer, sizeof(buffer), -1);
-                co.addTrip(buffer,sizeof(buffer));
+                //co.getConnection()->reciveData(buffer, sizeof(buffer), -1);
+                //co.addTrip(buffer,sizeof(buffer));
                 break;
             }
             case '3':
             {
-                co.getConnection()->reciveData(buffer, sizeof(buffer), -1);
-                co.addCab(buffer,sizeof(buffer));
+                //co.getConnection()->reciveData(buffer, sizeof(buffer), -1);
+                //co.addCab(buffer,sizeof(buffer));
                 break;
 
             }
@@ -49,11 +50,13 @@ int main(int argc, char *argv[]) {
             case '9':
             {
                 co.getConnection()->reciveData(buffer, sizeof(buffer), -1);
+                co.getConnection()->sendData("0",-1);
                 co.updateDriver(buffer,sizeof(buffer));
                 break;
             }
 
         }
         co.getConnection()->reciveData(missionNum, sizeof(missionNum), -1);
+        co.getConnection()->sendData("0",-1);
     }
 }

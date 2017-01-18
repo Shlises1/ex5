@@ -116,6 +116,7 @@ int main(int argc, char **argv) {
                 for (int i=0;i<tVec.size();i++) {
                     pthread_join(tVec[i],NULL);
                 }
+
                 delete (tx);
                 return 0;
             }

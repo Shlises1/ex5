@@ -42,6 +42,8 @@ public:
     void sendCab(Cab* cab,int socketComu);
     void moveOn(Node* loc, int socketComu);
     void endConn(int descriptor);
+    void sendRoute(vector<Node *> route, int socketComu);
+    void getSignal(int communication);
     void getDriver();
     void printLocation();
 };
